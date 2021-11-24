@@ -62,6 +62,35 @@ a{
 a:hover{
   color: #ff8000;
 }
+ul{
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+}
+li{
+  margin-top: 1rem;
+}
+button{
+  padding: 1.2rem;
+  border-radius: 0.5rem;
+  border: 2px solid #a4a4a4;
+  font-size: 1.6rem;
+  font-family: Helvetica, sans-serif,Arial ;
+  background: #d3d3d3;
+  cursor: pointer;
+}
+button.primary{
+  background: #ffd700;
+}
+button:hover{
+  font-size: 2rem;
+  background: #a4a4a4;
+  color: #ffd700;
+}
+button.block{
+  /* display: block; */
+  width: 100%;
+}
 /* img{ */
   /* width: 450px; */
   /* height: 600px; */
@@ -82,6 +111,16 @@ a.brand{
   justify-content: center;
   text-align:center;
 }
+.row.top{
+  /* display: flex; */
+  align-items: flex-start;
+}
+.col-1{
+  flex: 1 1 25rem;
+}
+.col-2{
+  flex: 2 1 50rem;
+}
 
 /* images */
 img{
@@ -92,6 +131,12 @@ img.medium {
   max-width: 29rem;
   width: 100%;
   height: 32rem;
+}
+img.large{
+  width: 100%;
+  max-width: 50rem;
+  height: 50rem;
+  min-height: 100%;
 }
 
 /* card */
@@ -119,4 +164,18 @@ img.medium {
 .rating span:last-child{
   color: #404040;
   text-transform: capitalize;
+}
+
+
+
+
+
+
+
+/* alert */
+.success{
+  color: #20a040;
+}
+.error{
+  color: #a02020;
 }
