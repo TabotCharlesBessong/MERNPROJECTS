@@ -1,11 +1,12 @@
 import React from 'react';
 import './index.css'
 import {data} from './data'
-import {FaStar} from 'react-icons/fa';
+
+import Products from './components/Products';
 
 function App() {
     return (
-        <>
+        <> 
             <div className="grid-container">
             <header className="row">
                 <div className="">
@@ -20,26 +21,9 @@ function App() {
                 <div className=" row center">
                 {
                     data.products.map(product => (
-                        <div key={product._id} className="card">
-                            <a href={`/product/${product._id}`}>
-                            <img className="medium" src={product.image} alt="" />
-                               </a>
-                            <div className="card-body">
-                            <a href={`/product/${product._id}`}>
-                                <h2>{product.name} </h2>
-                            </a>
-                            <div className="rating">
-                                <span><FaStar/></span>
-                                <span><FaStar/></span>
-                                <span><FaStar/></span>
-                                <span><FaStar/></span>
-                                <span><FaStar/></span>
-                            </div>
-                            <div className="price">
-                                ${product.price}
-                            </div>
-                            </div>
-                        </div>
+                        <Products key ={product._id} product={product}>
+
+                        </Products>
                     ))
                 }
 

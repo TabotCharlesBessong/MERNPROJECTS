@@ -3,7 +3,7 @@
   /* margin: 0; */
   /* box-sizing: border-box; */
 /* } */
-/*  */
+/*  */ 
 html{
   font-size: 62.5%; /* 1 rem will become 10px this will help by avoiding calculation */
   box-sizing: border-box;
@@ -115,4 +115,8 @@ img.medium {
 .rating span {
   color: #ffd700;
   margin: 0.2rem;
+}
+.rating span:last-child{
+  color: #404040;
+  text-transform: capitalize;
 }
