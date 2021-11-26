@@ -4,7 +4,7 @@ export const data = {
       _id:'1',
       name:'Azipluocueta',
       category:'singleFamily',
-      image:'/Images/family (1).jpg',
+      image:'/Images/family (1).jpeg',
       price:237,
       rating:3.9,
       numReviews:13,
