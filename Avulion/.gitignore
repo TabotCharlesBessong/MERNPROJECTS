@@ -4,6 +4,13 @@
 node_modules
 /.pnp
 .pnp.js
+/.jpg
+/public/*.jpg
+/public/images
+
+
+
+
 
 
 # testing
