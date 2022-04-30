@@ -9,11 +9,12 @@ const app = express()
 const port = process.env.PORT || 5000
 
 // routes
-app.use('/posts',postRoute)
 
 app.use(bodyParser.json({limit:"30mb",extended:true}))
 app.use(bodyParser.urlencoded({limit:"30mb",extended:true}))
 app.use(cors())
+app.use('/posts',postRoute)
+
 
 const MONGO_URI = 'mongodb+srv://Task1:Project11@node-task-manager.echz8.mongodb.net/TASKMANAGER?retryWrites=true&w=majority'
 
