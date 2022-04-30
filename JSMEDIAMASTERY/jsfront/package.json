@@ -1,8 +1,8 @@
 {
   "name": "AVulion",
-  "proxy": "http://127.0.0.1:5000",
   "version": "0.1.0",
   "private": true,
+  "proxy":"http://localhost:5000",
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
     "@fortawesome/fontawesome-free": "^5.15.4",
