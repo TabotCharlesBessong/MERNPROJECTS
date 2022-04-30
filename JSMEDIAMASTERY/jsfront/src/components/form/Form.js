@@ -3,6 +3,8 @@ import { Button, Paper, TextField, Typography } from '@material-ui/core'
 import React, { useState } from 'react'
 import useStyles from './Styles.js'
 import FileBase from 'react-file-base64'
+import {useDispatch} from 'react-redux'
+import { createPost } from '../../redux/actions/Posts.js'
 
 const Form = () => {
   const [postData,setPostData] = useState({
@@ -12,10 +14,12 @@ const Form = () => {
     tags:'',
     selectedFile:''
   })
+  const dispatch = useDispatch()
   const classes = useStyles()
 
-  const handleSubmit = ()=>{
-
+  const handleSubmit = (e)=>{
+    e.preventDefault()
+    dispatch(createPost(postData))
   }
 
   const clear = ()=>{
@@ -27,7 +31,7 @@ const Form = () => {
   }
   return (
     <Paper className={classes.paper} >
-      <form autocomplete='off' noValidate className={`${classes.root} ${classes.form}`}  onSubmit={handleSubmit}>
+      <form autocomplete='on' noValidate className={`${classes.root} ${classes.form}`}  onSubmit={handleSubmit}>
         <Typography variant='h6' >
           Creating a post
         </Typography>
@@ -43,7 +47,7 @@ const Form = () => {
             onDone={({base64}) => setPostData({...postData,selectedFile:base64}) }
           />
         </div>
-        <Button className={classes.buttonSubmit} variant='contained' color='primary' size='large' type='submit'  >Create memory</Button>
+        <Button className={classes.buttonSubmit} variant='contained' color='primary' size='large' type='submit'   >Create memory</Button>
         <Button className={classes.buttonSubmit} variant='contained' color='secondary' size='small' onClick={clear}  >Create memory</Button>
       </form>
     </Paper>
