@@ -21,6 +21,9 @@ import morgan from "morgan";
 import path from "path";
 import { fileURLToPath } from "url"; 
 
+// inbuilt 
+import { register } from "./controllers/auth.js";
+
 // configuration 
 
 const __filename = fileURLToPath(import.meta.url);
@@ -46,6 +49,9 @@ const storage = multer.diskStorage({
 	},
 });
 const upload = multer({ storage });
+
+// authentication 
+app.post("/auth/register",upload.single("picture"),register)
 
 // setting up mongoose 
 const PORT = process.env.PORT || 5000;
