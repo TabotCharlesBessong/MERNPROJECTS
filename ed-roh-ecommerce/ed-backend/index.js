@@ -25,6 +25,7 @@ import { fileURLToPath } from "url";
 import { register } from "./controllers/auth.js";
 
 // configuration 
+console.log('Hello world')
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
