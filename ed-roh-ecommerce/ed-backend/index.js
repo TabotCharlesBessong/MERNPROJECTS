@@ -23,6 +23,7 @@ import { fileURLToPath } from "url";
 import authRoutes from './routes/auth.js'
 // inbuilt 
 import { register } from "./controllers/auth.js";
+import userRoutes from "./routes/users.js";
 
 // configuration 
 console.log('Hello world')
@@ -56,6 +57,8 @@ app.post("/auth/register",upload.single("picture"),register)
 
 // ROUTES
 app.use('/auth',authRoutes)
+app.use('/users',userRoutes)
+// app.use('/post',postRoutes)
 
 // setting up mongoose 
 const PORT = process.env.PORT || 5000;
