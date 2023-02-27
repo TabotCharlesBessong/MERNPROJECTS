@@ -1,0 +1,10 @@
+
+export {default as Home} from './Home'
+export {default as Login} from './login'
+export {default as MyProfile} from './MyProfile'
+export {default as Agents} from './Agents'
+export {default as Edit} from './Edit'
+export {default as CreateProperty} from './CreateProperty'
+export {default as AllProperties} from './AllProperties'
+export {default as AgentProfilePage} from './AgentProfilePage'
+export {default as PropertyDetails} from './PropertyDetails'
