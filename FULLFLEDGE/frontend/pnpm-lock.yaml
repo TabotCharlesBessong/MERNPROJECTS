@@ -16,11 +16,13 @@ specifiers:
   '@types/node': ^12.20.10
   '@types/react': ^18.0.15
   '@types/react-dom': ^18.0.6
+  apexcharts: ^3.37.1
   axios: ^0.26.1
   i18next: ^20.1.0
   i18next-browser-languagedetector: ^6.1.1
   i18next-xhr-backend: ^3.2.2
   react: ^18.2.0
+  react-apexcharts: ^1.4.0
   react-dom: ^18.2.0
   react-i18next: ^11.8.11
   react-scripts: ^5.0.0
@@ -40,11 +42,13 @@ dependencies:
   '@testing-library/react': 11.2.7_biqbaboplfbrettd7655fr4n2y
   '@testing-library/user-event': 12.8.3
   '@types/jest': 26.0.24
+  apexcharts: 3.37.1
   axios: 0.26.1
   i18next: 20.6.1
   i18next-browser-languagedetector: 6.1.8
   i18next-xhr-backend: 3.2.2
   react: 18.2.0
+  react-apexcharts: 1.4.0_l2rd6y5gjgpeiojdskdkjkna3y
   react-dom: 18.2.0_react@18.2.0
   react-i18next: 11.18.6_jgvzqwd4354hcsrzzlv27br6da
   react-scripts: 5.0.1_j5ip3o3v6sktjzl5cxtjyfbuo4
@@ -3712,6 +3716,17 @@ packages:
     dependencies:
       normalize-path: 3.0.0
       picomatch: 2.3.1
+    dev: false
+
+  /apexcharts/3.37.1:
+    resolution: {integrity: sha512-fmQ5Updeb/LASl+S1+mIxXUFxzY0Fa7gexfCs4o+OPP9f2NEBNjvybOtPrah44N4roK7U5o5Jis906QeEQu0cA==}
+    dependencies:
+      svg.draggable.js: 2.2.2
+      svg.easing.js: 2.0.0
+      svg.filter.js: 2.0.2
+      svg.pathmorphing.js: 0.1.3
+      svg.resize.js: 1.4.3
+      svg.select.js: 3.0.1
     dev: false
 
   /arg/5.0.2:
@@ -10352,6 +10367,17 @@ packages:
       unpipe: 1.0.0
     dev: false
 
+  /react-apexcharts/1.4.0_l2rd6y5gjgpeiojdskdkjkna3y:
+    resolution: {integrity: sha512-DrcMV4aAMrUG+n6412yzyATWEyCDWlpPBBhVbpzBC4PDeuYU6iF84SmExbck+jx5MUm4U5PM3/T307Mc3kzc9Q==}
+    peerDependencies:
+      apexcharts: ^3.18.0
+      react: '>=0.13'
+    dependencies:
+      apexcharts: 3.37.1
+      prop-types: 15.8.1
+      react: 18.2.0
+    dev: false
+
   /react-app-polyfill/3.0.0:
     resolution: {integrity: sha512-sZ41cxiU5llIB003yxxQBYrARBqe0repqPTTYBTmMqTz9szeBbE37BehCE891NZsmdZqqP+xWKdT3eo3vOzN8w==}
     engines: {node: '>=14'}
@@ -11692,6 +11718,60 @@ packages:
 
   /svg-parser/2.0.4:
     resolution: {integrity: sha512-e4hG1hRwoOdRb37cIMSgzNsxyzKfayW6VOflrwvR+/bzrkyxY/31WkbgnQpgtrNp1SdpJvpUAGTa/ZoiPNDuRQ==}
+    dev: false
+
+  /svg.draggable.js/2.2.2:
+    resolution: {integrity: sha512-JzNHBc2fLQMzYCZ90KZHN2ohXL0BQJGQimK1kGk6AvSeibuKcIdDX9Kr0dT9+UJ5O8nYA0RB839Lhvk4CY4MZw==}
+    engines: {node: '>= 0.8.0'}
+    dependencies:
+      svg.js: 2.7.1
+    dev: false
+
+  /svg.easing.js/2.0.0:
+    resolution: {integrity: sha512-//ctPdJMGy22YoYGV+3HEfHbm6/69LJUTAqI2/5qBvaNHZ9uUFVC82B0Pl299HzgH13rKrBgi4+XyXXyVWWthA==}
+    engines: {node: '>= 0.8.0'}
+    dependencies:
+      svg.js: 2.7.1
+    dev: false
+
+  /svg.filter.js/2.0.2:
+    resolution: {integrity: sha512-xkGBwU+dKBzqg5PtilaTb0EYPqPfJ9Q6saVldX+5vCRy31P6TlRCP3U9NxH3HEufkKkpNgdTLBJnmhDHeTqAkw==}
+    engines: {node: '>= 0.8.0'}
+    dependencies:
+      svg.js: 2.7.1
+    dev: false
+
+  /svg.js/2.7.1:
+    resolution: {integrity: sha512-ycbxpizEQktk3FYvn/8BH+6/EuWXg7ZpQREJvgacqn46gIddG24tNNe4Son6omdXCnSOaApnpZw6MPCBA1dODA==}
+    dev: false
+
+  /svg.pathmorphing.js/0.1.3:
+    resolution: {integrity: sha512-49HWI9X4XQR/JG1qXkSDV8xViuTLIWm/B/7YuQELV5KMOPtXjiwH4XPJvr/ghEDibmLQ9Oc22dpWpG0vUDDNww==}
+    engines: {node: '>= 0.8.0'}
+    dependencies:
+      svg.js: 2.7.1
+    dev: false
+
+  /svg.resize.js/1.4.3:
+    resolution: {integrity: sha512-9k5sXJuPKp+mVzXNvxz7U0uC9oVMQrrf7cFsETznzUDDm0x8+77dtZkWdMfRlmbkEEYvUn9btKuZ3n41oNA+uw==}
+    engines: {node: '>= 0.8.0'}
+    dependencies:
+      svg.js: 2.7.1
+      svg.select.js: 2.1.2
+    dev: false
+
+  /svg.select.js/2.1.2:
+    resolution: {integrity: sha512-tH6ABEyJsAOVAhwcCjF8mw4crjXSI1aa7j2VQR8ZuJ37H2MBUbyeqYr5nEO7sSN3cy9AR9DUwNg0t/962HlDbQ==}
+    engines: {node: '>= 0.8.0'}
+    dependencies:
+      svg.js: 2.7.1
+    dev: false
+
+  /svg.select.js/3.0.1:
+    resolution: {integrity: sha512-h5IS/hKkuVCbKSieR9uQCj9w+zLHoPh+ce19bBYyqF53g6mnPB8sAtIbe1s9dh2S2fCmYX2xel1Ln3PJBbK4kw==}
+    engines: {node: '>= 0.8.0'}
+    dependencies:
+      svg.js: 2.7.1
     dev: false
 
   /svgo/1.3.2:
