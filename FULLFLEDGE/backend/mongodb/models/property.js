@@ -3,19 +3,19 @@ import mongoose from 'mongoose'
 
 const PropertySchema = new mongoose.Schema({
   title:{
-    type:string,
+    type:String,
     required:true
   },
   description:{
-    type:string,
+    type:String,
     required:true
   },
   propertyType:{
-    type:string,
+    type:String,
     required:true
   },
   location:{
-    type:string,
+    type:String,
     required:true
   },
   price:{
@@ -23,7 +23,7 @@ const PropertySchema = new mongoose.Schema({
     required:true
   },
   photo:{
-    type:string,
+    type:String,
     required:true
   },
   creator:{

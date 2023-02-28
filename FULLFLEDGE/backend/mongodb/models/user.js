@@ -3,15 +3,15 @@ import mongoose from 'mongoose'
 
 const UserSchema = new mongoose.Schema({
 	name: {
-		type: string,
+		type: String,
 		required: true,
 	},
 	email: {
-		type: string,
+		type: String,
 		required: true,
 	},
 	avatar: {
-		type: string,
+		type: String,
 		required: true,
 	},
   allProperties:[
