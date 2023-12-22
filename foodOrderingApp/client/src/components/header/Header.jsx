@@ -32,7 +32,6 @@ const Header = () => {
               <Link to="/login">Login</Link>
             )}
           </ul>
-          <h1>Hello</h1>
         </nav>
       </div>
     </header>
