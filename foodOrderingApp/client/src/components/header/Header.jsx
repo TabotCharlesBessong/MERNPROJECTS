@@ -31,6 +31,14 @@ const Header = () => {
             ) : (
               <Link to="/login">Login</Link>
             )}
+            <li>
+              <Link to="/cart">
+                Cart
+                {cart.totalCount > 0 && (
+                  <span className={classes.cart_count}>{cart.totalCount}</span>
+                )}
+              </Link>
+            </li>
           </ul>
         </nav>
       </div>
