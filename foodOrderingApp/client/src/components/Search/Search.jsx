@@ -1,8 +1,6 @@
-import React from 'react'
-import { useParams } from 'react-router-dom'
-import { useNavigate } from 'react-router-dom'
-import classes from './search.module.css'
 import { useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import classes from './search.module.css'
 
 const Search = () => {
   const [term, setTerm] = useState('')
@@ -12,6 +10,7 @@ const Search = () => {
 
   const search = async () => {
     term ? navigate('/search/' + term) : navigate('/')
+    // console.log(term)
   }
   return (
     <div className={classes.container} >
