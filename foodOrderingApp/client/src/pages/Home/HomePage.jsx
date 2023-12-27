@@ -1,16 +1,18 @@
 import React from "react";
 import { useEffect } from "react";
 import { useReducer } from "react";
-import { getAll, search } from "../../services/foodServices";
-import { Search, Thumbnails } from "../../components";
+import { getAll, getAllByTag, getAllTags, search } from "../../services/foodServices";
+import { Search, Tags, Thumbnails } from "../../components";
 import { useParams } from "react-router-dom";
 
-const initialState = { foods: [] };
+const initialState = { foods: [],tags:[] };
 
 const reducer = (state, action) => {
   switch (action.type) {
     case "FOOD_LOADED":
       return { ...state, foods: action.payload };
+    case "TAGS_LOADED":
+      return {...state,tags:action.payload}
     default:
       return state;
   }
@@ -18,18 +20,21 @@ const reducer = (state, action) => {
 
 const HomePage = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const { foods } = state;
-  const { searchTerm } = useParams();
+  const { foods,tags } = state;
+  const { searchTerm,tag } = useParams();
   console.log(searchTerm)
 
   useEffect(() => {
-    const loadFoods = searchTerm ? search(searchTerm) : getAll()
+    getAllTags().then(tags => dispatch({type:'TAGS_LOADED',payload:tags}))
+
+    const loadFoods = tag ? getAllByTag(tag) : searchTerm ? search(searchTerm) : getAll()
 
     loadFoods.then(foods => dispatch({type:'FOOD_LOADED',payload:foods}))
-  }, [searchTerm]);
+  }, [searchTerm,tag]);
   return (
     <>
       <Search />
+      <Tags tags={tags} />
       <Thumbnails foods={foods} />
     </>
   );
