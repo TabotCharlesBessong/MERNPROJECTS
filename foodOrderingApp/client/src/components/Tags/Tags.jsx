@@ -13,7 +13,7 @@ const Tags = ({tags,forFoodPage}) => {
       {tags.map((tag) => (
         <Link key={tag.name} to={`/tag/${tag.name}`}>
           {tag.name}
-          {!forFoodPage && `(%{tag.count})`}
+          {!forFoodPage && `(${tag.count})`}
         </Link>
       ))}
     </div>
