@@ -17,6 +17,7 @@ app.use(require("cors")())
 
 // routes
 app.use("/api",require("./routes/auth"))
+app.use("/api", require("./routes/contact"));
 
 app.listen(port,() => {
   connectDB()
