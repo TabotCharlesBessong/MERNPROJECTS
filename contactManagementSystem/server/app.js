@@ -5,6 +5,7 @@ const dotenv = require("dotenv")
 dotenv.config()
 
 const connectDB = require("./config/db")
+// const auth = require("./middlewares/auth")
 
 const app = express()
 const port = process.env.PORT || 5500
@@ -13,6 +14,9 @@ const port = process.env.PORT || 5500
 app.use(express.json())
 app.use(morgan("tiny"))
 app.use(require("cors")())
+
+// routes
+app.use("/api",require("./routes/auth"))
 
 app.listen(port,() => {
   connectDB()
