@@ -89,7 +89,7 @@ router.post("/login", async (req, res) => {
     })
 
     const user = { ...doesUserExists._doc, password: undefined };
-    return res.json(200).json({user})
+    return res.json(200).json({token,user})
   } catch (error) {
     console.log(error)
     return res.status(500).json({error:error.message})
