@@ -14,9 +14,10 @@
 .image {
   border-radius: 3rem;
   flex: 1 0;
-  object-fit: cover;
+  object-fit: contain;
   height: 35rem;
   margin: 1rem;
+  width: 100%;
 }
 
 .details {
