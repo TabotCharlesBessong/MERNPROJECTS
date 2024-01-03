@@ -4,10 +4,19 @@ import { getById } from "../../services/foodServices";
 import classes from "./food.module.css";
 import images from "../../constant/images";
 import { Price, StarRating, Tags } from "../../components";
+import { useNavigate } from "react-router-dom";
+import { useCart } from "../../hooks/useCart";
 
 const FoodPage = () => {
   const [food, setFood] = useState({});
   const { id } = useParams();
+  const navigate = useNavigate()
+  const {addToCart} = useCart()
+
+  const handleAddToCart = () => {
+    addToCart(food)
+    navigate('/cart')
+  }
 
   useEffect(() => {
     // getById(id).then(setFood);
@@ -61,7 +70,7 @@ const FoodPage = () => {
               <Price price={food.price} />
             </div>
 
-            <button>Add To Cart</button>
+            <button onClick={handleAddToCart} >Add To Cart</button>
           </div>
         </div>
       )}

@@ -53,7 +53,7 @@ const CartProvider = ({ children }) => {
     };
 
     setCartItems(
-      cartItem.map((item) => (item.food.id === food.id ? changeCartItem : item))
+      cartItems.map((item) => (item.food.id === food.id ? changeCartItem : item))
     );
   };
 
