@@ -2,7 +2,7 @@ import React from "react";
 import { useEffect } from "react";
 import { useReducer } from "react";
 import { getAll, getAllByTag, getAllTags, search } from "../../services/foodServices";
-import { Search, Tags, Thumbnails } from "../../components";
+import { NotFound, Search, Tags, Thumbnails } from "../../components";
 import { useParams } from "react-router-dom";
 
 const initialState = { foods: [],tags:[] };
@@ -35,6 +35,7 @@ const HomePage = () => {
     <>
       <Search />
       <Tags tags={tags} />
+      {foods?.lenght === 0 && <NotFound linkText="Reset Search" />}
       <Thumbnails foods={foods} />
     </>
   );
