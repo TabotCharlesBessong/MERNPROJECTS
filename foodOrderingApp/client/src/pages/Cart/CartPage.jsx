@@ -1,7 +1,7 @@
 import React from "react";
 import classes from "./cartPage.module.css";
 import { useCart } from "../../hooks/useCart";
-import { Price, Title } from "../../components";
+import { NotFound, Price, Title } from "../../components";
 import { Link } from "react-router-dom";
 
 const CartPage = () => {
@@ -10,7 +10,9 @@ const CartPage = () => {
     <>
       <Title title="Cart Page" margin="1.5rem 0 0 2.5rem" />
 
-      {cart && cart.items.length > 0 && (
+      {cart.items.length === 0 ? (
+        <NotFound message="Cart Page is Empty" />
+      ) : (
         <div className={classes.container}>
           <ul className={classes.list}>
             {cart.items.map((item) => (
