@@ -6,7 +6,7 @@ import { Price, StarRating } from '..'
 const Thumnails = ({foods}) => {
   return (
     <ul className={classes.list}>
-      {foods.map(food => (
+      {foods?.map(food => (
         <li key={food.id}>
           <Link to={`/food/${food.id}`}>
             <img
