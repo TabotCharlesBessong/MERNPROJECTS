@@ -1,7 +1,7 @@
 import express from "express"
 import cors from "cors"
 import dotenv from "dotenv"
-import foodRouter from "./routers/food.routerr"
+import foodRouter from "../src/router/food.js"
 
 dotenv.config()
 
