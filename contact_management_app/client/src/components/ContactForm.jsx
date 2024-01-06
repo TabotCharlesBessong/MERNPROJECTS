@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { makeStyles } from "@mui/styles";
+import {useDispatch,useSelector} from 'react-redux'
 import {
   Button,
   Dialog,
@@ -10,6 +11,7 @@ import {
   TextField,
 } from "@mui/material";
 import FileBase from "react-file-base64";
+import { createContact } from "../redux/actions/contactActions";
 
 const useStyles = makeStyles((theme) => ({
   file: {
@@ -19,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
 
 const ContactForm = ({open,handleClose,currentId,setCurrentId}) => {
   const classes = useStyles();
-
+  const dispatch = useDispatch()
   const initialState = {
     name: "",
     email: "",
@@ -29,6 +31,15 @@ const ContactForm = ({open,handleClose,currentId,setCurrentId}) => {
     selectedImage: "",
   };
   const [contactData, setContactData] = useState(initialState);
+  const clearData = () => {
+    setContactData(initialState);
+  }
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    handleClose()
+    dispatch(createContact(contactData))
+    clearData()
+  }
   return (
     <Dialog
       open={open}
