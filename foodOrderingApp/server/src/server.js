@@ -9,7 +9,7 @@ const app = express()
 const port = process.env.PORT
 
 app.use(cors({credentials:true,origin:['http://localhost:5173']}))
-
+app.use(express.static("../public"));
 app.use('/api/foods',foodRouter)
 
 app.listen(port,() => {
