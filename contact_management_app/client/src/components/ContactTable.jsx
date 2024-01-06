@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { makeStyles } from "@mui/styles";
 import { Button, Card, useTheme } from "@mui/material";
 import { Add } from "@mui/icons-material";
-import MaterialTable from "material-table";
+// import MaterialTable from "material-table";
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -37,7 +37,7 @@ const ContactTable = ({ handleOpen, setCurrentId }) => {
         </Button>
       </div>
       <Card>
-        <MaterialTable
+        {/* <MaterialTable
           title="Contact Details"
           columns={[
             {
@@ -96,7 +96,7 @@ const ContactTable = ({ handleOpen, setCurrentId }) => {
             exportButton: true,
             selection: true,
           }}
-        />
+        /> */}
       </Card>
     </>
   );

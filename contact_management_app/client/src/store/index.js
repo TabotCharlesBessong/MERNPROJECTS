@@ -3,18 +3,21 @@ import {
   combineReducers,
   applyMiddleware,
 } from "redux";
-import thunk from "redux-thunk";
+import {thunk} from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
+import { contactReducer } from "../redux/reducers/contactReducer";
 
-const reducers = combineReducers({});
+const reducers = combineReducers({
+  contacts:contactReducer
+});
 const initialState = {};
 
 const middleware = [thunk];
 
-const store = createStore(
+export const store = createStore(
   reducers,
   initialState,
   applyMiddleware(...middleware)
 );
 
-export default store
+// export default store
