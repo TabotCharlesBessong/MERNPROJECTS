@@ -8,7 +8,7 @@ export const createContact = asyncHandler(async (req, res) => {
   console.log(req.body);
 
   const newContact = new Contact({
-    // user: req.user._id,
+    user: req.user._id,
     name,
     email,
     phoneNo1,
