@@ -4,7 +4,7 @@ import { protect } from "../middleware/authMiddleware.js"
 
 const router = express.Router()
 
-router.post("/",protect,createContact)
+router.post("/",createContact)
 router.get("/",protect,getContacts)
 router.get("/:id",protect,getContact)
 router.delete("/:id",protect,deleteContact)

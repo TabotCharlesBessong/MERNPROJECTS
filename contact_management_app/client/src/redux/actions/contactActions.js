@@ -24,3 +24,13 @@ export const fetchContacts = () => async (dispatch) => {
     console.log(error)
   }
 }
+
+export const updateContact = (id,form) => async (dispatch) => {
+  try {
+    const {data} = await axios.put(`/contact/${id}`,form)
+    console.log(data)
+    dispatch({type:CONTACT_UPDATE,payload:data})
+  } catch (error) {
+    console.log(error)
+  }
+}

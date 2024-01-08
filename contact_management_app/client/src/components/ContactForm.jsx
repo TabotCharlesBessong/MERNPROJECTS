@@ -11,7 +11,7 @@ import {
   TextField,
 } from "@mui/material";
 import FileBase from "react-file-base64";
-import { createContact } from "../redux/actions/contactActions";
+import { createContact, updateContact } from "../redux/actions/contactActions";
 
 const useStyles = makeStyles((theme) => ({
   file: {
@@ -33,11 +33,13 @@ const ContactForm = ({open,handleClose,currentId,setCurrentId}) => {
   const [contactData, setContactData] = useState(initialState);
   const clearData = () => {
     setContactData(initialState);
+    setCurrentId(0)
   }
   const handleSubmit = (e) => {
     e.preventDefault()
     handleClose()
-    dispatch(createContact(contactData))
+    if(currentId === 0) dispatch(createContact(contactData))
+    else dispatch(updateContact(currentId,contactData))
     clearData()
   }
   return (
@@ -123,8 +125,8 @@ const ContactForm = ({open,handleClose,currentId,setCurrentId}) => {
         <Button color="secondary" onClick={handleClose}>
           Close
         </Button>
-        <Button color="primary" onClick={{}}>
-          Add
+        <Button color="primary" onClick={handleSubmit}>
+          Add Contact
         </Button>
       </DialogActions>
     </Dialog>
