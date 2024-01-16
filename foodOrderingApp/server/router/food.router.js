@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { sample_foods, sample_tags } from "../constant/data";
+import { sample_foods, sample_tags } from "../constant/data.js";
 
 const router = Router();
 
