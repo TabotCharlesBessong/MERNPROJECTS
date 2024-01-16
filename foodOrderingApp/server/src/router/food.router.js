@@ -1,9 +1,6 @@
 import { Router } from "express";
-<<<<<<<< HEAD:foodOrderingApp/server/src/router/food.js
 import { sample_foods, sample_tags } from "../../src/constant/data.js";
-========
-import { sample_foods, sample_tags } from "../constant/data.js";
->>>>>>>> a80e021fbb3430998d22681c25d7fd649be6ef90:foodOrderingApp/server/src/router/food.router.js
+
 
 const router = Router();
 

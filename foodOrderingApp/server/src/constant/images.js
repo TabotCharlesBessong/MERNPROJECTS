@@ -1,13 +1,23 @@
 
-import food1 from '../../public/images/food-1.jpg'
-import food2 from '../../public/images/food-2.jpg'
-import food3 from '../../public/images/food-3.jpg'
-import food4 from '../../public/images/food-4.jpg'
-import food5 from '../../public/images/food-5.jpg'
-import food6 from '../../public/images/food-6.jpg'
-import halfStar from '../../public/images/star-half.svg'
-import emptyStar from '../../public/images/star-empty.svg'
-import fullStar from '../../public/images/star-full.svg'
+const food1 =
+  "https://images.pexels.com/photos/39853/woman-girl-freedom-happy-39853.jpeg?auto=compress&cs=tinysrgb&w=600";
+const food2 =
+  "https://images.pexels.com/photos/39853/woman-girl-freedom-happy-39853.jpeg?auto=compress&cs=tinysrgb&w=600";
+const food3 =
+  "https://images.pexels.com/photos/39853/woman-girl-freedom-happy-39853.jpeg?auto=compress&cs=tinysrgb&w=600";
+const food4 =
+  "https://images.pexels.com/photos/39853/woman-girl-freedom-happy-39853.jpeg?auto=compress&cs=tinysrgb&w=600";
+const food5 =
+  "https://images.pexels.com/photos/39853/woman-girl-freedom-happy-39853.jpeg?auto=compress&cs=tinysrgb&w=600";
+const food6 =
+  "https://images.pexels.com/photos/39853/woman-girl-freedom-happy-39853.jpeg?auto=compress&cs=tinysrgb&w=600";
+const halfStar =
+  "https://images.pexels.com/photos/39853/woman-girl-freedom-happy-39853.jpeg?auto=compress&cs=tinysrgb&w=600";
+const emptyStar =
+  "https://images.pexels.com/photos/39853/woman-girl-freedom-happy-39853.jpeg?auto=compress&cs=tinysrgb&w=600";
+const fullStar =
+  "https://images.pexels.com/photos/39853/woman-girl-freedom-happy-39853.jpeg?auto=compress&cs=tinysrgb&w=600";
+
 
 const images = {
   food1,

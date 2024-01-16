@@ -1,8 +1,4 @@
-<<<<<<< HEAD:foodOrderingApp/server/src/constant/data.js
 import images from "../../src/constant/images.js";
-=======
-import images from "./images.js";
->>>>>>> a80e021fbb3430998d22681c25d7fd649be6ef90:foodOrderingApp/server/constant/data.js
 
 export const sample_foods = [
   {
