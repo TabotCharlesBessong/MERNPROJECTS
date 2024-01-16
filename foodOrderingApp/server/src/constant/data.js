@@ -1,4 +1,4 @@
-import images from "./images.js";
+import images from "../../src/constant/images.js";
 
 export const sample_foods = [
   {

@@ -1,7 +1,4 @@
-import { useEffect } from "react";
-import { useContext } from "react";
-import { useState } from "react";
-import { createContext } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 const CartContext = createContext(null);
 const CART_KEY = "cart";
