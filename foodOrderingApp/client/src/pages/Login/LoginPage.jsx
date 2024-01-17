@@ -4,6 +4,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import { Button, Input, Title } from "../../components";
 import classes from "./loginPage.module.css";
+import { Link } from "react-router-dom";
 
 const LoginPage = () => {
   const {
@@ -53,6 +54,13 @@ const LoginPage = () => {
           />
 
           <Button type="submit" text="Login" />
+
+          <div className={classes.register}>
+            New user? &nbsp;
+            <Link to={`/register${returnUrl ? "?returnUrl=" + returnUrl : ""}`}>
+              Register here
+            </Link>
+          </div>
         </form>
       </div>
     </div>
