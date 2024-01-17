@@ -1,6 +1,6 @@
 import React from "react";
-import { Routes,Route } from "react-router-dom";
-import { CartPage, FoodPage, HomePage } from "./pages";
+import { Routes, Route } from "react-router-dom";
+import { CartPage, FoodPage, HomePage, LoginPage, RegisterPage } from "./pages";
 
 const AppRoutes = () => {
   return (
@@ -10,8 +10,10 @@ const AppRoutes = () => {
       <Route path="/tag/:tag" element={<HomePage />} />
       <Route path="/food/:id" element={<FoodPage />} />
       <Route path="/cart" element={<CartPage />} />
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/register" element={<RegisterPage />} />
     </Routes>
-  )
-}
+  );
+};
 
-export default AppRoutes
+export default AppRoutes;
