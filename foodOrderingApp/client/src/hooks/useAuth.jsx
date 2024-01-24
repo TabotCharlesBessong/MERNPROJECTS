@@ -23,6 +23,7 @@ export const AuthProvider = ({ children }) => {
       const user = await userService.register(data)
       setUser(user)
       toast.success('Registered user successfully')
+      console.log(data)
     } catch (error) {
       toast.error(error.response.data)
     }
