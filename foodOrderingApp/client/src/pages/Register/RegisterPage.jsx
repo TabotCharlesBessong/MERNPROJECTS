@@ -1,16 +1,15 @@
-import React from "react";
-import classes from "./registerPage.module.css";
-import { useAuth } from "../../hooks/useAuth";
-import { useNavigate } from "react-router-dom";
-import { useSearchParams } from "react-router-dom";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { Button, Input, Title } from "../../components";
-import { Link } from "react-router-dom";
+import { useAuth } from "../../hooks/useAuth";
+import classes from "./registerPage.module.css";
 
 const RegisterPage = () => {
   const auth = useAuth();
+  console.log({ auth });
   const { user } = auth;
+  console.log({ user });
   const navigate = useNavigate();
   const [params] = useSearchParams();
   const returnUrl = params.get("returnUrl");
@@ -91,7 +90,7 @@ const RegisterPage = () => {
             error={errors.address}
           />
 
-          <Button text="Register" type="submit" />
+          <Button type="submit" text="Register" />
 
           <div className={classes.login}>
             Already a user? &nbsp;
