@@ -8,6 +8,7 @@ import food6 from '../assets/images/food-6.jpg'
 import halfStar from '../assets/star-half.svg'
 import emptyStar from '../assets/star-empty.svg'
 import fullStar from '../assets/star-full.svg'
+import loader from '../assets/images/loading.svg'
 
 const images = {
   food1,
@@ -18,7 +19,8 @@ const images = {
   food6,
   halfStar,
   emptyStar,
-  fullStar
+  fullStar,
+  loader
 }
 
 export default images
