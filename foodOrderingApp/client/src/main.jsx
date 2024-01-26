@@ -9,6 +9,7 @@ import { AuthProvider } from "./hooks/useAuth.jsx";
 import CartProvider from "./hooks/useCart";
 import { LoadingProvider } from "./hooks/useLoading.jsx";
 import "./index.css";
+import './interceptors/authInterceptor.js'
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
