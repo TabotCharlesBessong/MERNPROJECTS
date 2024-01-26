@@ -1,5 +1,5 @@
-import { UNAUTHORIZED } from "../constant/httpStatus"
-import {verify} from 'jsonwebtoken'
+import { UNAUTHORIZED } from "../constant/httpStatus.js"
+import verify from 'jsonwebtoken'
 
 export default (req,res,next) => {
   const token = req.headers.access_token
