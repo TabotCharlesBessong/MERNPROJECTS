@@ -9,6 +9,11 @@ import halfStar from '../assets/star-half.svg'
 import emptyStar from '../assets/star-empty.svg'
 import fullStar from '../assets/star-full.svg'
 import loader from '../assets/images/loading.svg'
+import layer2 from '../assets/images/layers-2x.png'
+import layer from '../assets/images/layers.png'
+import marker2 from '../assets/images/marker-icon-2x.png'
+import marker from '../assets/images/marker-icon.png'
+import shadow from '../assets/images/marker-shadow.png'
 
 const images = {
   food1,
@@ -20,7 +25,12 @@ const images = {
   halfStar,
   emptyStar,
   fullStar,
-  loader
+  loader,
+  layer2,
+  layer,
+  marker2,
+  marker,
+  shadow
 }
 
 export default images

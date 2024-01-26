@@ -1,6 +1,7 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import { CartPage, FoodPage, HomePage, LoginPage, RegisterPage } from "./pages";
+import AuthRoute from "./components/AuthRoute/AuthRoute";
 
 const AppRoutes = () => {
   return (
@@ -12,6 +13,10 @@ const AppRoutes = () => {
       <Route path="/cart" element={<CartPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
+      <Route
+        path="/checkout"
+        element={<AuthRoute>"Hello my checkout"</AuthRoute>}
+      />
     </Routes>
   );
 };
