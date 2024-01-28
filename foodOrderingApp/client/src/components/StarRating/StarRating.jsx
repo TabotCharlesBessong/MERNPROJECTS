@@ -1,5 +1,6 @@
 import React from 'react';
 import classes from './starRating.module.css';
+import images from '../../constants/images';
 export default function StarRating({ stars, size }) {
   const styles = {
     width: size + 'px',
@@ -11,11 +12,11 @@ export default function StarRating({ stars, size }) {
     const halfNumber = number - 0.5;
 
     return stars >= number ? (
-      <img src="/star-full.svg" style={styles} alt={number} />
+      <img src={images.fullStar} style={styles} alt={number} />
     ) : stars >= halfNumber ? (
-      <img src="/star-half.svg" style={styles} alt={number} />
+      <img src={images.halfStar} style={styles} alt={number} />
     ) : (
-      <img src="/star-empty.svg" style={styles} alt={number} />
+      <img src={images.emptyStar} style={styles} alt={number} />
     );
   }
 
