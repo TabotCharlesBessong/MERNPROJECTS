@@ -1,23 +1,24 @@
-import { useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { Button, Input, Title } from "../../components";
-import { useAuth } from "../../hooks/useAuth";
-import classes from "./registerPage.module.css";
-import { EMAIL } from "../../constant/pattern";
+import { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import Input from '../../components/Input/Input';
+import Title from '../../components/Title/Title';
+import classes from './registerPage.module.css';
+import Button from '../../components/Button/Button';
+import { Link } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../hooks/useAuth';
+import { EMAIL } from '../../constants/patterns';
 
-const RegisterPage = () => {
+export default function RegisterPage() {
   const auth = useAuth();
-  console.log({ auth });
   const { user } = auth;
-  console.log({ user });
   const navigate = useNavigate();
   const [params] = useSearchParams();
-  const returnUrl = params.get("returnUrl");
+  const returnUrl = params.get('returnUrl');
 
   useEffect(() => {
     if (!user) return;
-    returnUrl ? navigate(returnUrl) : navigate("/");
+    returnUrl ? navigate(returnUrl) : navigate('/');
   }, [user]);
 
   const {
@@ -27,9 +28,10 @@ const RegisterPage = () => {
     formState: { errors },
   } = useForm();
 
-  const submit = async (data) => {
+  const submit = async data => {
     await auth.register(data);
   };
+
   return (
     <div className={classes.container}>
       <div className={classes.details}>
@@ -38,7 +40,7 @@ const RegisterPage = () => {
           <Input
             type="text"
             label="Name"
-            {...register("name", {
+            {...register('name', {
               required: true,
               minLength: 5,
             })}
@@ -48,7 +50,7 @@ const RegisterPage = () => {
           <Input
             type="email"
             label="Email"
-            {...register("email", {
+            {...register('email', {
               required: true,
               pattern: EMAIL,
             })}
@@ -58,7 +60,7 @@ const RegisterPage = () => {
           <Input
             type="password"
             label="Password"
-            {...register("password", {
+            {...register('password', {
               required: true,
               minLength: 5,
             })}
@@ -68,11 +70,11 @@ const RegisterPage = () => {
           <Input
             type="password"
             label="Confirm Password"
-            {...register("confirmPassword", {
+            {...register('confirmPassword', {
               required: true,
-              validate: (value) =>
-                value !== getValues("password")
-                  ? "Passwords Do No Match"
+              validate: value =>
+                value !== getValues('password')
+                  ? 'Passwords Do No Match'
                   : true,
             })}
             error={errors.confirmPassword}
@@ -81,7 +83,7 @@ const RegisterPage = () => {
           <Input
             type="text"
             label="Address"
-            {...register("address", {
+            {...register('address', {
               required: true,
               minLength: 10,
             })}
@@ -92,7 +94,7 @@ const RegisterPage = () => {
 
           <div className={classes.login}>
             Already a user? &nbsp;
-            <Link to={`/login${returnUrl ? "?returnUrl=" + returnUrl : ""}`}>
+            <Link to={`/login${returnUrl ? '?returnUrl=' + returnUrl : ''}`}>
               Login here
             </Link>
           </div>
@@ -100,6 +102,4 @@ const RegisterPage = () => {
       </div>
     </div>
   );
-};
-
-export default RegisterPage;
+}

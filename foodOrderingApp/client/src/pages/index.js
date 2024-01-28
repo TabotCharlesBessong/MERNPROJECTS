@@ -1,6 +1,0 @@
-export {default as HomePage} from './Home/HomePage'
-export {default as FoodPage} from './Food/FoodPage'
-export {default as CartPage} from './Cart/CartPage'
-export {default as LoginPage} from './Login/LoginPage'
-export {default as RegisterPage} from './Register/RegisterPage'
-export {default as CheckoutPage} from './Checkout/CheckoutPage'

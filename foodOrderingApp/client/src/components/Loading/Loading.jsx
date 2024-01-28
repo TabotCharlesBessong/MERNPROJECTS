@@ -1,19 +1,17 @@
-import React from 'react'
-import classes from './loading.module.css'
-import { useLoading } from '../../hooks/useLoading'
-import images from '../../constant/images'
+import React from 'react';
+import { useLoading } from '../../hooks/useLoading';
+import classes from './loading.module.css';
 
-const Loading = () => {
-  const {isLoading} = useLoading()
-  if(!isLoading) return
+export default function Loading() {
+  const { isLoading } = useLoading();
+  if (!isLoading) return;
+
   return (
-    <div className={classes.container} >
+    <div className={classes.container}>
       <div className={classes.items}>
-        <img src={images.loader} alt="Loading" />
-        <h1>Loading....</h1>
+        <img src="/loading.svg" alt="Loading!" />
+        <h1>Loading...</h1>
       </div>
     </div>
-  )
+  );
 }
-
-export default Loading

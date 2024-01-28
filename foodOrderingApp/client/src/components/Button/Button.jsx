@@ -1,7 +1,6 @@
-import React from "react";
-import classes from "./button.module.css";
+import classes from './button.module.css';
 
-const Button = ({
+export default function Button({
   type,
   text,
   onClick,
@@ -10,9 +9,9 @@ const Button = ({
   fontSize,
   width,
   height,
-}) => {
+}) {
   return (
-    <div className={classes.container} >
+    <div className={classes.container}>
       <button
         style={{
           color,
@@ -28,16 +27,14 @@ const Button = ({
       </button>
     </div>
   );
-};
-
-export default Button;
+}
 
 Button.defaultProps = {
-  type: "button",
-  text: "Submit",
-  backgroundColor: "#e72929",
-  color: "white",
-  fontSize: "1.3rem",
-  width: "12rem",
-  height: "3.5rem",
+  type: 'button',
+  text: 'Submit',
+  backgroundColor: '#e72929',
+  color: 'white',
+  fontSize: '1.3rem',
+  width: '12rem',
+  height: '3.5rem',
 };
