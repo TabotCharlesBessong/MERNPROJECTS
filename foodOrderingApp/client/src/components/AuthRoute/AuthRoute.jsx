@@ -1,14 +1,12 @@
-import { Navigate, useLocation } from 'react-router-dom'
-import { useAuth } from '../../hooks/useAuth'
+import { Navigate, useLocation } from 'react-router-dom';
+import { useAuth } from '../../hooks/useAuth';
 
-const AuthRoute = ({children}) => {
-  const {user} = useAuth()
-  const location = useLocation()
+export default function AuthRoute({ children }) {
+  const location = useLocation();
+  const { user } = useAuth();
   return user ? (
     children
   ) : (
     <Navigate to={`/login?returnUrl=${location.pathname}`} replace />
   );
 }
-
-export default AuthRoute

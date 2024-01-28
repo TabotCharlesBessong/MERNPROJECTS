@@ -1,31 +1,34 @@
-import { useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import { useAuth } from "../../hooks/useAuth";
-import { Button, Input, Title } from "../../components";
-import classes from "./loginPage.module.css";
-import { Link } from "react-router-dom";
-
-const LoginPage = () => {
+import React, { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { useNavigate, useSearchParams, Link } from 'react-router-dom';
+import { useAuth } from '../../hooks/useAuth';
+import classes from './loginPage.module.css';
+import Title from '../../components/Title/Title';
+import Input from '../../components/Input/Input';
+import Button from '../../components/Button/Button';
+import { EMAIL } from '../../constants/patterns';
+export default function LoginPage() {
   const {
     handleSubmit,
     register,
     formState: { errors },
   } = useForm();
+
   const navigate = useNavigate();
   const { user, login } = useAuth();
   const [params] = useSearchParams();
-  const returnUrl = params.get("returnUrl");
+  const returnUrl = params.get('returnUrl');
 
   useEffect(() => {
     if (!user) return;
 
-    returnUrl ? navigate(returnUrl) : navigate("/");
+    returnUrl ? navigate(returnUrl) : navigate('/');
   }, [user]);
 
   const submit = async ({ email, password }) => {
     await login(email, password);
   };
+
   return (
     <div className={classes.container}>
       <div className={classes.details}>
@@ -34,12 +37,9 @@ const LoginPage = () => {
           <Input
             type="email"
             label="Email"
-            {...register("email", {
+            {...register('email', {
               required: true,
-              pattern: {
-                value: /^[\w-.]+@([\w-]+\.)+[\w-]{2,63}$/i,
-                message: "Email Is Not Valid",
-              },
+              pattern: EMAIL,
             })}
             error={errors.email}
           />
@@ -47,7 +47,7 @@ const LoginPage = () => {
           <Input
             type="password"
             label="Password"
-            {...register("password", {
+            {...register('password', {
               required: true,
             })}
             error={errors.password}
@@ -57,7 +57,7 @@ const LoginPage = () => {
 
           <div className={classes.register}>
             New user? &nbsp;
-            <Link to={`/register${returnUrl ? "?returnUrl=" + returnUrl : ""}`}>
+            <Link to={`/register${returnUrl ? '?returnUrl=' + returnUrl : ''}`}>
               Register here
             </Link>
           </div>
@@ -65,6 +65,4 @@ const LoginPage = () => {
       </div>
     </div>
   );
-};
-
-export default LoginPage;
+}

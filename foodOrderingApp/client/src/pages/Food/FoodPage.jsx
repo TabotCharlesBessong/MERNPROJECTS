@@ -1,54 +1,55 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { getById } from "../../services/foodServices";
-import classes from "./food.module.css";
-import images from "../../constant/images";
-import { NotFound, Price, StarRating, Tags } from "../../components";
-import { useNavigate } from "react-router-dom";
-import { useCart } from "../../hooks/useCart";
-
-const FoodPage = () => {
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import Price from '../../components/Price/Price';
+import StarRating from '../../components/StarRating/StarRating';
+import Tags from '../../components/Tags/Tags';
+import { useCart } from '../../hooks/useCart';
+import { getById } from '../../services/foodService';
+import classes from './foodPage.module.css';
+import NotFound from '../../components/NotFound/NotFound';
+export default function FoodPage() {
   const [food, setFood] = useState({});
   const { id } = useParams();
-  const navigate = useNavigate();
   const { addToCart } = useCart();
+  const navigate = useNavigate();
 
   const handleAddToCart = () => {
     addToCart(food);
-    navigate("/cart");
+    navigate('/cart');
   };
 
   useEffect(() => {
-    // getById(id).then(setFood);
-    setFood(getById(id));
-    console.log(food);
-  }, []);
+    getById(id).then(setFood);
+  }, [id]);
   return (
     <>
       {!food ? (
-        <NotFound message="No Food Found" />
+        <NotFound message="Food Not Found!" linkText="Back To Homepage" />
       ) : (
         <div className={classes.container}>
-          <img src={images.food1} alt={food.name} className={classes.image} />
+          <img
+            className={classes.image}
+            src={`${food.imageUrl}`}
+            alt={food.name}
+          />
 
           <div className={classes.details}>
             <div className={classes.header}>
-              <span className="classes name">{food.name}</span>
+              <span className={classes.name}>{food.name}</span>
               <span
                 className={`${classes.favorite} ${
-                  food.favorite ? "" : classes.not
+                  food.favorite ? '' : classes.not
                 }`}
               >
                 ❤
               </span>
             </div>
-
             <div className={classes.rating}>
               <StarRating stars={food.stars} size={25} />
             </div>
 
             <div className={classes.origins}>
-              {food.origins?.map((origin) => (
+              {food.origins?.map(origin => (
                 <span key={origin}>{origin}</span>
               ))}
             </div>
@@ -56,7 +57,7 @@ const FoodPage = () => {
             <div className={classes.tags}>
               {food.tags && (
                 <Tags
-                  tags={food.tags.map((tag) => ({ name: tag }))}
+                  tags={food.tags.map(tag => ({ name: tag }))}
                   forFoodPage={true}
                 />
               )}
@@ -78,6 +79,4 @@ const FoodPage = () => {
       )}
     </>
   );
-};
-
-export default FoodPage;
+}

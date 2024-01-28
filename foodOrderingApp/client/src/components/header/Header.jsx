@@ -1,13 +1,14 @@
-import React from "react";
-import classes from "./header.module.css";
-import { Link } from "react-router-dom";
-import { useCart } from "../../hooks/useCart";
-import { useAuth } from "../../hooks/useAuth";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { useCart } from '../../hooks/useCart';
+import classes from './header.module.css';
+import { useAuth } from '../../hooks/useAuth';
 
-const Header = () => {
-  const {user,logout} = useAuth()
+export default function Header() {
+  const { user, logout } = useAuth();
 
-  const cart = useCart()
+  const { cart } = useCart();
+
   return (
     <header className={classes.header}>
       <div className={classes.container}>
@@ -18,7 +19,7 @@ const Header = () => {
           <ul>
             {user ? (
               <li className={classes.menu_container}>
-                <Link to="/profile">{user.name}</Link>
+                <Link to="/dashboard">{user.name}</Link>
                 <div className={classes.menu}>
                   <Link to="/profile">Profile</Link>
                   <Link to="/orders">Orders</Link>
@@ -28,6 +29,7 @@ const Header = () => {
             ) : (
               <Link to="/login">Login</Link>
             )}
+
             <li>
               <Link to="/cart">
                 Cart
@@ -41,6 +43,4 @@ const Header = () => {
       </div>
     </header>
   );
-};
-
-export default Header;
+}

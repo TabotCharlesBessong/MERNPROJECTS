@@ -1,34 +1,34 @@
-import React from "react";
-import classes from "./cartPage.module.css";
-import { useCart } from "../../hooks/useCart";
-import { NotFound, Price, Title } from "../../components";
-import { Link } from "react-router-dom";
-
-const CartPage = () => {
+import React from 'react';
+import { Link } from 'react-router-dom';
+import Price from '../../components/Price/Price';
+import Title from '../../components/Title/Title';
+import { useCart } from '../../hooks/useCart';
+import classes from './cartPage.module.css';
+import NotFound from '../../components/NotFound/NotFound';
+export default function CartPage() {
   const { cart, removeFromCart, changeQuantity } = useCart();
   return (
     <>
       <Title title="Cart Page" margin="1.5rem 0 0 2.5rem" />
 
       {cart.items.length === 0 ? (
-        <NotFound message="Cart Page is Empty" />
+        <NotFound message="Cart Page Is Empty!" />
       ) : (
         <div className={classes.container}>
           <ul className={classes.list}>
-            {cart.items.map((item) => (
-              <li key={item}>
-                <div>
-                  <img src={item.food.imageUrl} alt={item.food.name} />
+            {cart.items.map(item => (
+              <li key={item.food.id}>
+                <div key={item.food.id} >
+                  <img src={`${item.food.imageUrl}`} alt={item.food.name} />
                 </div>
                 <div>
                   <Link to={`/food/${item.food.id}`}>{item.food.name}</Link>
                 </div>
+
                 <div>
                   <select
                     value={item.quantity}
-                    onChange={(e) =>
-                      changeQuantity(item, Number(e.target.value))
-                    }
+                    onChange={e => changeQuantity(item, Number(e.target.value))}
                   >
                     <option>1</option>
                     <option>2</option>
@@ -49,8 +49,8 @@ const CartPage = () => {
 
                 <div>
                   <button
-                    onClick={() => removeFromCart(item.food.id)}
                     className={classes.remove_button}
+                    onClick={() => removeFromCart(item.food.id)}
                   >
                     Remove
                   </button>
@@ -62,16 +62,15 @@ const CartPage = () => {
           <div className={classes.checkout}>
             <div>
               <div className={classes.foods_count}>{cart.totalCount}</div>
+              <div className={classes.total_price}>
+                <Price price={cart.totalPrice} />
+              </div>
             </div>
-            <div className={classes.total_price}>
-              <Price price={cart.totalPrice} />
-            </div>
+
+            <Link to="/checkout">Proceed To Checkout</Link>
           </div>
-          <Link to="/checkout">Proceed to Checkout</Link>
         </div>
       )}
     </>
   );
-};
-
-export default CartPage;
+}
