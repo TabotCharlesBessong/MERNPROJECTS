@@ -37,6 +37,11 @@ router.post(
   })
 );
 
+router.get("/users",handler(async (req,res) => {
+  const users = await UserModel.find({})
+  res.send(users)
+}))
+
 router.post("/login",handler (async(req, res) => {
   const { email, password } = req.body;
   const user = await UserModel.findOne({ email });
