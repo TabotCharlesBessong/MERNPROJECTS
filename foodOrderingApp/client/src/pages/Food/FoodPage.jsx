@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { NotFound, Price, StarRating, Tags } from "../../components";
+import images from "../../constant/images";
+import { useCart } from "../../hooks/useCart";
 import { getById } from "../../services/foodServices";
 import classes from "./food.module.css";
-import images from "../../constant/images";
-import { NotFound, Price, StarRating, Tags } from "../../components";
-import { useNavigate } from "react-router-dom";
-import { useCart } from "../../hooks/useCart";
 
 const FoodPage = () => {
   const [food, setFood] = useState({});
@@ -19,10 +18,10 @@ const FoodPage = () => {
   };
 
   useEffect(() => {
-    // getById(id).then(setFood);
-    setFood(getById(id));
-    console.log(food);
-  }, []);
+    getById(id).then(setFood);
+    // setFood(getById(id));
+    // console.log(food);
+  }, [id]);
   return (
     <>
       {!food ? (

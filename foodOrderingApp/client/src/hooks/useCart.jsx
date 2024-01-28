@@ -24,8 +24,10 @@ const CartProvider = ({ children }) => {
   const [totalCount, setTotalCount] = useState(initCart.totalCount);
 
   useEffect(() => {
-    setTotalPrice(sum(cartItems.map((item) => item.price)));
-    setTotalCount(sum(cartItems.map((item) => item.quantity)));
+    const totalPrice = sum(cartItems.map((item) => item.price));
+    const totalCount = sum(cartItems.map((item) => item.quantity));
+    setTotalPrice(totalPrice);
+    setTotalCount(totalCount);
 
     localStorage.setItem(
       CART_KEY,
@@ -50,7 +52,9 @@ const CartProvider = ({ children }) => {
     };
 
     setCartItems(
-      cartItems.map((item) => (item.food.id === food.id ? changeCartItem : item))
+      cartItems.map((item) =>
+        item.food.id === food.id ? changeCartItem : item
+      )
     );
   };
 
