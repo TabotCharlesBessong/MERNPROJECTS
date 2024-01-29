@@ -38,11 +38,11 @@ export default function PaymentPage() {
           <Map readonly={true} location={order.addressLatLng} />
         </div>
 
-        <div className={classes.buttons_container}>
+        {/* <div className={classes.buttons_container}>
           <div className={classes.buttons}>
             <PaypalButtons order={order} />
           </div>
-        </div>
+        </div> */}
       </div>
     </>
   );

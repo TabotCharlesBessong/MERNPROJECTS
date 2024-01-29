@@ -62,7 +62,7 @@ function FindButtonAndMarker({ readonly, location, onChange }) {
   });
 
   const markerIcon = new L.Icon({
-    iconUrl: '/marker-icon-2x.png',
+    iconUrl: '../../assets/images/marker-icon-2x.png',
     iconSize: [25, 41],
     iconAnchor: [12.5, 41],
     popupAnchor: [0, -41],
