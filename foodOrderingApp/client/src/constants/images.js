@@ -14,6 +14,10 @@ import layer from '../assets/images/layers.png'
 import marker2 from '../assets/images/marker-icon-2x.png'
 import marker from '../assets/images/marker-icon.png'
 import shadow from '../assets/images/marker-shadow.png'
+import food from '../assets/foods.svg'
+import order from '../assets/orders.svg'
+import profile from '../assets/profile.svg'
+import user from '../assets/users.svg'
 
 const images = {
   food1,
@@ -30,7 +34,11 @@ const images = {
   layer,
   marker2,
   marker,
-  shadow
+  shadow,
+  food,
+  order,
+  profile,
+  user
 }
 
 export default images

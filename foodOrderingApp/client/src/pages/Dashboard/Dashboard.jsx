@@ -2,6 +2,7 @@ import React from 'react';
 import { useAuth } from '../../hooks/useAuth';
 import classes from './dashboard.module.css';
 import { Link } from 'react-router-dom';
+import images from '../../constants/images';
 
 export default function Dashboard() {
   const { user } = useAuth();
@@ -32,21 +33,21 @@ export default function Dashboard() {
 const allItems = [
   {
     title: 'Orders',
-    imageUrl: '/icons/orders.svg',
+    imageUrl: images.order,
     url: '/orders',
     bgColor: '#ec407a',
     color: 'white',
   },
   {
     title: 'Profile',
-    imageUrl: '/icons/profile.svg',
+    imageUrl: images.profile,
     url: '/profile',
     bgColor: '#1565c0',
     color: 'white',
   },
   {
     title: 'Users',
-    imageUrl: '/icons/users.svg',
+    imageUrl: images.user,
     url: '/admin/users',
     forAdmin: true,
     bgColor: '#00bfa5',
@@ -54,7 +55,7 @@ const allItems = [
   },
   {
     title: 'Foods',
-    imageUrl: '/icons/foods.svg',
+    imageUrl: images.food,
     url: '/admin/foods',
     forAdmin: true,
     bgColor: '#e040fb',
