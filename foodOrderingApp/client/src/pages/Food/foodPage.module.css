@@ -6,7 +6,7 @@
   margin: 3rem;
 }
 
-.container>* {
+.container > * {
   min-width: 25rem;
   max-width: 40rem;
 }
@@ -14,10 +14,9 @@
 .image {
   border-radius: 3rem;
   flex: 1 0;
-  object-fit: contain;
+  object-fit: cover;
   height: 35rem;
   margin: 1rem;
-  width: 100%;
 }
 
 .details {
@@ -56,7 +55,7 @@
   margin: 0.7rem 0;
 }
 
-.origins>span {
+.origins > span {
   padding: 0.5rem;
   font-size: 1.2rem;
   margin: 0.5rem 0.5rem 0 0;

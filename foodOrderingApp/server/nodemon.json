@@ -1,3 +1,7 @@
 {
-  "ext":".....jpg"
+  "verbose": true,
+  "watch": ["src/**/*.js"],
+  "exec": "node ./src/server.js",
+  "pollingInterval": 100,
+  "legacyWatch": true
 }

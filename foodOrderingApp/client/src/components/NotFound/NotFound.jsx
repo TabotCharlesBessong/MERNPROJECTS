@@ -1,7 +1,7 @@
-import React from "react";
-import classes from "./notFound.module.css";
-import { Link } from "react-router-dom";
-const NotFound = ({ message, linkRoute, linkText }) => {
+import React from 'react';
+import classes from './notFound.module.css';
+import { Link } from 'react-router-dom';
+export default function NotFound({ message, linkRoute, linkText }) {
   return (
     <div className={classes.container}>
       {message}
@@ -11,9 +11,7 @@ const NotFound = ({ message, linkRoute, linkText }) => {
 }
 
 NotFound.defaultProps = {
-  message: "Nothing Found!",
-  linkRoute: "/",
-  linkText: "Go To Home Page",
+  message: 'Nothing Found!',
+  linkRoute: '/',
+  linkText: 'Go To Home Page',
 };
-
-export default NotFound
