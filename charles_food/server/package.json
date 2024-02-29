@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon src/index.ts"
   },
-  "repository": "https://github.com/TabotCharlesBessong/Booking_App.git",
+  "repository": "https://github.com/TabotCharlesBessong/MERNPROJECTS",
   "author": "TabotCharlesBessong <ebezebeatrice@gmail.com>",
   "license": "MIT",
   "dependencies": {
@@ -18,6 +18,7 @@
     "express-async-handler": "^1.2.0",
     "express-validator": "^7.0.1",
     "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.3.0",
     "mongoose": "^8.0.0",
     "nodemailer": "^6.9.7",
     "nodemon": "^3.0.1",
