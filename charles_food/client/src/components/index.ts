@@ -12,6 +12,7 @@ import { Separator } from "./ui/separator";
 export { default as Header } from "./header/Header";
 export { default as MobileNav } from "./header/MobileNav";
 export { default as MainNav } from "./header/MainNav";
+export { default as Hero } from "./home/Hero";
 
 export {
   Button,
