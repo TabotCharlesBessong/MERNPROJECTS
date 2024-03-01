@@ -1,4 +1,4 @@
-import { Header, Hero } from '@/components'
+import { Footer, Header, Hero } from '@/components'
 import { FC, ReactNode } from 'react'
 
 type Props = {
@@ -13,6 +13,7 @@ const Layout:FC<Props> = ({children}) => {
       <div className="container mx-auto flex-1 py-10">
         {children}
       </div>
+      <Footer />
     </div>
   )
 }
