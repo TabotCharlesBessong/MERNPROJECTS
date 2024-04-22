@@ -27,7 +27,7 @@ app.use((err: TypeError, req: Request, res: Response, next: NextFunction) => {
   } catch (e) {}
 });
 
-app.use("/user",userRouter)
+app.use("/api/user",userRouter)
 
 app.get("/", (req: Request, res: Response) => {
   res.send(`Welcome to ${process.env.APPNAME}`);
