@@ -1,5 +1,14 @@
 import { Request, Response } from "express";
 import UserService from "../services/user.services";
+import {
+  AccountStatus,
+  EmailStatus,
+  UserRoles,
+} from "../interfaces/enum/user.enum";
+import { IUserCreationBody } from "../interfaces/user.interfaces";
+import bcrypt from "bcrypt";
+import Utility from "../utils/index.utils";
+import { ResponseCode } from "../interfaces/enum/code.enum";
 
 class UserController {
   private userService: UserService;
@@ -10,7 +19,35 @@ class UserController {
 
   async register(req: Request, res: Response) {
     try {
-      res.send({ message: "Register successful" });
+      const params = { ...req.body };
+      const newUser = {
+        firstname: params.firstname,
+        lastname: params.lastname,
+        email: params.email,
+        username: params.email.split("@")[0],
+        password: params.password,
+        role: UserRoles.CUSTOMER,
+        isEmailVerified: EmailStatus.NOT_VERIFIED,
+        accountStatus: AccountStatus.ACTIVE,
+      } as IUserCreationBody;
+      newUser.password = bcrypt.hashSync(newUser.password, 10);
+      let userExists = await this.userService.getUserByField({
+        email: newUser.email,
+      });
+      if (userExists)
+        return Utility.handleError(
+          res,
+          "User with email address already exists",
+          ResponseCode.ALREADY_EXIST
+        );
+
+      let user = await this.userService.createUser(newUser);
+      return Utility.handleSuccess(
+        res,
+        "User registered successfully",
+        { user },
+        ResponseCode.SUCCESS
+      );
     } catch (error) {
       res.send({ message: "Server error" });
     }
@@ -41,4 +78,4 @@ class UserController {
   }
 }
 
-export default UserController
+export default UserController;
