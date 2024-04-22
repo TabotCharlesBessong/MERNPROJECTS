@@ -2,9 +2,10 @@ import express, { Request, Response } from "express";
 import UserService from "../services/user.services";
 import UserController from "../controllers/user.controller";
 import Utility from "../utils/index.utils";
+import UserDataSource from "../datasources/user.datasource";
 const createUserRoute = () => {
   const router = express.Router();
-  const userService = new UserService();
+  const userService = new UserService(new UserDataSource);
   const userController = new UserController(userService);
 
   Utility.printRed("POST : /api/user/register")
