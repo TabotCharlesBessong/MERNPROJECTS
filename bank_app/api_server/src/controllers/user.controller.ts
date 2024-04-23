@@ -123,7 +123,7 @@ class UserController {
       return Utility.handleSuccess(
         res,
         "Password reset code sent to your email",
-        {},
+        {token},
         ResponseCode.SUCCESS
       );
     } catch (error) {

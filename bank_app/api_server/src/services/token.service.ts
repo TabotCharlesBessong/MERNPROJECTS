@@ -44,7 +44,7 @@ class TokenService {
     while (!validCode) {
       tokenData.code = Utility.generateCode(6);
       const isCodeExist = await this.getTokenByField({ code: tokenData.code });
-      if (isCodeExist) {
+      if (!isCodeExist) {
         validCode = true;
         break;
       }
