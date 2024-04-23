@@ -9,12 +9,17 @@ import { IUserCreationBody } from "../interfaces/user.interfaces";
 import bcrypt from "bcrypt";
 import Utility from "../utils/index.utils";
 import { ResponseCode } from "../interfaces/enum/code.enum";
+import JWT from "jsonwebtoken";
+import TokenService from "../services/token.service";
+import { IToken } from "../interfaces/token.interface";
 
 class UserController {
   private userService: UserService;
+  private tokenService: TokenService;
 
-  constructor(_userService: UserService) {
+  constructor(_userService: UserService, _tokenService: TokenService) {
     this.userService = _userService;
+    this.tokenService = _tokenService;
   }
 
   async register(req: Request, res: Response) {
@@ -55,17 +60,78 @@ class UserController {
 
   async login(req: Request, res: Response) {
     try {
-      res.send({ message: "login successful" });
+      const params = { ...req.body };
+      let user = await this.userService.getUserByField({ email: params.email });
+      if (!user) {
+        return Utility.handleError(
+          res,
+          "Invalid Login Detail",
+          ResponseCode.NOT_FOUND
+        );
+      }
+      const passwordMatch = await bcrypt.compare(
+        params.password,
+        user.password
+      );
+      if (!passwordMatch) {
+        return Utility.handleError(
+          res,
+          "Invalid login detail",
+          ResponseCode.NOT_FOUND
+        );
+      }
+      const token = JWT.sign(
+        {
+          firstname: user.firstname,
+          lastname: user.lastname,
+          id: user.id,
+          email: user.email,
+          role: user.role,
+        },
+        process.env.JWT_KEY as string,
+        { expiresIn: "30d" }
+      );
+      return Utility.handleSuccess(
+        res,
+        "Login successful",
+        { user, token },
+        ResponseCode.SUCCESS
+      );
     } catch (error) {
-      res.send({ message: "Server Error" });
+      return Utility.handleError(
+        res,
+        (error as TypeError).message,
+        ResponseCode.SERVER_ERROR
+      );
     }
   }
 
   async forgotPassword(req: Request, res: Response) {
     try {
-      res.send({ message: "forgot password successful" });
+      const params = { ...req.body };
+      let user = await this.userService.getUserByField({ email: params.email });
+      if (!user) {
+        return Utility.handleError(
+          res,
+          "Account does not exist!",
+          ResponseCode.NOT_FOUND
+        );
+      }
+      const token = (await this.tokenService.createForgotPasswordToken(
+        params.email
+      )) as IToken;
+      return Utility.handleSuccess(
+        res,
+        "Password reset code sent to your email",
+        {},
+        ResponseCode.SUCCESS
+      );
     } catch (error) {
-      res.send({ message: "Server Error" });
+      return Utility.handleError(
+        res,
+        (error as TypeError).message,
+        ResponseCode.SERVER_ERROR
+      );
     }
   }
 
