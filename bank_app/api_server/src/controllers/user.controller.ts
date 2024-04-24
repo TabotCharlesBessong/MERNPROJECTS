@@ -12,6 +12,7 @@ import { ResponseCode } from "../interfaces/enum/code.enum";
 import JWT from "jsonwebtoken";
 import TokenService from "../services/token.service";
 import { IToken } from "../interfaces/token.interface";
+import EmailService from "../services/email.service";
 
 class UserController {
   private userService: UserService;
@@ -120,6 +121,7 @@ class UserController {
       const token = (await this.tokenService.createForgotPasswordToken(
         params.email
       )) as IToken;
+      await EmailService.sendForgotPasswordMail(params.email,token.code)
       return Utility.handleSuccess(
         res,
         "Password reset code sent to your email",

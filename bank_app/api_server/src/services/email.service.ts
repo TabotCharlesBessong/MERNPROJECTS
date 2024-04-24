@@ -35,7 +35,7 @@ class EmailService {
       service: "gmail",
       auth: {
         user: process.env.MAILTRAP_USER,
-        pass: process.env.MAILTRAP_PASSWORD,
+        pass: process.env.MAILTRAP_PASS,
       },
     });
 
