@@ -13,6 +13,7 @@ import JWT from "jsonwebtoken";
 import TokenService from "../services/token.service";
 import { IToken } from "../interfaces/token.interface";
 import EmailService from "../services/email.service";
+import moment from "moment";
 
 class UserController {
   private userService: UserService;
@@ -121,11 +122,11 @@ class UserController {
       const token = (await this.tokenService.createForgotPasswordToken(
         params.email
       )) as IToken;
-      await EmailService.sendForgotPasswordMail(params.email,token.code)
+      await EmailService.sendForgotPasswordMail(params.email, token.code);
       return Utility.handleSuccess(
         res,
         "Password reset code sent to your email",
-        {token},
+        { token },
         ResponseCode.SUCCESS
       );
     } catch (error) {
@@ -139,9 +140,47 @@ class UserController {
 
   async resetPassword(req: Request, res: Response) {
     try {
-      res.send({ message: "reset password successful" });
+      const params = { ...req.body };
+      let isValidToken = await this.tokenService.getTokenByField({
+        key: params.email,
+        code: params.code,
+        type: this.tokenService.TokenTypes.FORGOT_PASSWORD,
+        status: this.tokenService.TokenStatus.NOTUSED,
+      });
+
+      if(!isValidToken){
+        return Utility.handleError(res,"Token has expired",ResponseCode.NOT_FOUND)
+      }
+
+      if(isValidToken && moment(isValidToken.expires).diff(moment(),"minute")<=0){
+        return Utility.handleError(
+          res,
+          "Token has expired",
+          ResponseCode.NOT_FOUND
+        );
+      }
+
+      let user = await this.userService.getUserByField({email:params.email})
+      if(!user){
+        return Utility.handleError(
+          res,
+          "Invalid user records",
+          ResponseCode.NOT_FOUND
+        );
+      }
+
+      const _password = bcrypt.hashSync(params.password,10)
+
+      await this.userService.updateRecord({id:user.id},{password:_password})
+
+      await this.tokenService.updateRecord({id:isValidToken.id},{status:this.tokenService.TokenStatus.USED})
+      return Utility.handleSuccess(res,"Password reset successfully",{},ResponseCode.SUCCESS)
     } catch (error) {
-      res.send({ message: "Server Error" });
+      return Utility.handleError(
+        res,
+        (error as TypeError).message,
+        ResponseCode.SERVER_ERROR
+      );
     }
   }
 }
