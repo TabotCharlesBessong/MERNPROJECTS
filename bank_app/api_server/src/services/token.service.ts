@@ -51,6 +51,14 @@ class TokenService {
     }
     return this.tokenDataSource.create(tokenData);
   }
+
+  async updateRecord(
+    searchBy: Partial<IToken>,
+    record: Partial<IToken>
+  ): Promise<void> {
+    const query = { where: { ...searchBy }, raw: true } as IFindTokenQuery;
+    await this.tokenDataSource.updateOne(record, query);
+  }
 }
 
 export default TokenService;
