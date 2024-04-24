@@ -1,4 +1,5 @@
 import { Response } from "express";
+import {createLogger, format, transport, transports} from "winston"
 
 const printRed = (text:string) => {
   console.log("\x1b[31m%s\x1b[0m",`${text} \n`)
@@ -9,6 +10,7 @@ const handleError = (
   message: string,
   statusCode: number = 400
 ) => {
+  logger.log({level:"error",message})
   return res.status(statusCode).json({ status: false, message });
 };
 
@@ -31,11 +33,27 @@ const generateCode = (num:number = 15) => {
   return result.toUpperCase()
 }
 
+const logger = createLogger({
+  transports: [
+    new transports.File({
+      filename: "./logs/index.log",
+      level: "error",
+      format: format.combine(
+        format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
+        format.printf(
+          (info) => `${info.timestamp} ${info.level} : ${info.message} `
+        )
+      ),
+    }),
+  ],
+});
+
 const Utility = {
   printRed,
   handleError,
   handleSuccess,
-  generateCode
+  generateCode,
+  logger
 }
 
 export default Utility
