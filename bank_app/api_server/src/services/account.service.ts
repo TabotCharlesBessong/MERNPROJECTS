@@ -16,6 +16,7 @@ class AccountService {
       accountNumber += Math.floor(Math.random() * 10);
     }
 
+    console.log(accountNumber)
     return accountNumber;
   }
 
@@ -32,6 +33,7 @@ class AccountService {
         break;
       }
     }
+    console.log(accountNo)
     return accountNo;
   }
 
@@ -42,7 +44,17 @@ class AccountService {
       balance: 0.0,
       status: AccountStatus.ACTIVE,
     } as IAccountCreationBody;
+    console.log(this.accountDataSource.create(record))
     return this.accountDataSource.create(record);
+  }
+
+  async getAccountsByUserId(userId:string){
+    const query = {
+      where:{userId},
+      raw:true
+    }
+
+    return this.accountDataSource.fetchAll(query)
   }
 }
 

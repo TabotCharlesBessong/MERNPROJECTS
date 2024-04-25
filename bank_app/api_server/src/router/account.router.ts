@@ -14,6 +14,10 @@ const createAccountRoute = () => {
   router.post("/create",validator(ValidationSchema.createAccountSchema),(req:Request,res:Response) => {
     return accountController.createAccount(req,res)
   })
+
+  router.get("/list",(req:Request,res:Response) => {
+    return accountController.getAllUserAccounts(req,res)
+  })
   return router
 }
 
