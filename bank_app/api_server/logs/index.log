@@ -1,3 +1,17 @@
 2024-04-24 14:03:52 error : Invalid login detail 
 2024-04-24 14:04:03 error : Invalid login detail 
 2024-04-24 22:32:20 error : User with email address already exists 
+2024-04-27 16:39:52 error : type must be one of the following values: SAVING_ACCOUNT, CURRENT_ACCOUNT, FIXED_SAVING_ACCOUNT 
+2024-04-27 16:46:57 error : Cannot read properties of undefined (reading 'id') 
+2024-04-27 17:23:09 error : type must be one of the following values: SAVING_ACCOUNT, CURRENT_ACCOUNT, FIXED_SAVING_ACCOUNT 
+2024-04-27 17:23:24 error : type must be one of the following values: SAVING_ACCOUNT, CURRENT_ACCOUNT, FIXED_SAVING_ACCOUNT 
+2024-04-27 17:24:17 error : jwt malformed 
+2024-04-27 17:25:34 error : jwt malformed 
+2024-04-27 17:27:15 error : Authorization failed 
+2024-04-27 17:28:13 error : Validation error 
+2024-04-27 17:31:44 error : Validation error 
+2024-04-27 17:33:17 error : Invalid login detail 
+2024-04-27 17:34:01 error : Validation error 
+2024-04-27 17:36:17 error : Cannot read properties of undefined (reading 'id') 
+2024-04-27 17:36:42 error : Cannot read properties of undefined (reading 'id') 
+2024-04-27 17:37:33 error : Cannot read properties of undefined (reading 'id') 
