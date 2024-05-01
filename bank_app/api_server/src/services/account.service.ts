@@ -1,12 +1,14 @@
+import AccountDataSource from "../datasources/account.datasource";
 import {
+  IAccount,
   IAccountCreationBody,
-  IAccountDataSource,
+  IFindAccountQuery
 } from "../interfaces/account.interface";
 import { AccountStatus } from "../interfaces/enum/user.enum";
 
 class AccountService {
-  private accountDataSource: IAccountDataSource;
-  constructor(_accountDataSource: IAccountDataSource) {
+  private accountDataSource: AccountDataSource;
+  constructor(_accountDataSource: AccountDataSource) {
     this.accountDataSource = _accountDataSource;
   }
 
@@ -15,7 +17,6 @@ class AccountService {
     for (let i = 0; i < 10; i++) {
       accountNumber += Math.floor(Math.random() * 10);
     }
-
     return accountNumber;
   }
 
@@ -43,6 +44,22 @@ class AccountService {
       status: AccountStatus.ACTIVE,
     } as IAccountCreationBody;
     return this.accountDataSource.create(record);
+  }
+
+  async getAccountsByUserId(userId: string) {
+    const query = {
+      where: { userId },
+      raw: true,
+    };
+    return this.accountDataSource.fetchAll(query);
+  }
+
+  async getAccountByField(record: Partial<IAccount>) {
+    const query = {
+      where: { ...record },
+      raw: true,
+    } as IFindAccountQuery;
+    return this.accountDataSource.fetchOne(query);
   }
 }
 

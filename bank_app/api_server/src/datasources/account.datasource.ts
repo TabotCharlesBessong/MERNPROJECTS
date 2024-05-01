@@ -1,7 +1,12 @@
 import { query } from "express";
 
 import { FindOptions } from "sequelize";
-import { IAccountDataSource, IAccountCreationBody, IAccount, IFindAccountQuery } from "../interfaces/account.interface";
+import {
+  IAccountDataSource,
+  IAccountCreationBody,
+  IAccount,
+  IFindAccountQuery,
+} from "../interfaces/account.interface";
 import AccountModel from "../models/account.model";
 
 class AccountDataSource implements IAccountDataSource {

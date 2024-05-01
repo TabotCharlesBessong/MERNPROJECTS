@@ -1,3 +1,45 @@
 2024-04-24 14:03:52 error : Invalid login detail 
 2024-04-24 14:04:03 error : Invalid login detail 
 2024-04-24 22:32:20 error : User with email address already exists 
+2024-04-27 16:39:52 error : type must be one of the following values: SAVING_ACCOUNT, CURRENT_ACCOUNT, FIXED_SAVING_ACCOUNT 
+2024-04-27 16:46:57 error : Cannot read properties of undefined (reading 'id') 
+2024-04-27 17:23:09 error : type must be one of the following values: SAVING_ACCOUNT, CURRENT_ACCOUNT, FIXED_SAVING_ACCOUNT 
+2024-04-27 17:23:24 error : type must be one of the following values: SAVING_ACCOUNT, CURRENT_ACCOUNT, FIXED_SAVING_ACCOUNT 
+2024-04-27 17:24:17 error : jwt malformed 
+2024-04-27 17:25:34 error : jwt malformed 
+2024-04-27 17:27:15 error : Authorization failed 
+2024-04-27 17:28:13 error : Validation error 
+2024-04-27 17:31:44 error : Validation error 
+2024-04-27 17:33:17 error : Invalid login detail 
+2024-04-27 17:34:01 error : Validation error 
+2024-04-27 17:36:17 error : Cannot read properties of undefined (reading 'id') 
+2024-04-27 17:36:42 error : Cannot read properties of undefined (reading 'id') 
+2024-04-27 17:37:33 error : Cannot read properties of undefined (reading 'id') 
+2024-04-27 17:42:52 error : Validation error 
+2024-05-01 15:58:23 error : Cannot read properties of undefined (reading 'id') 
+2024-05-01 15:59:00 error : Cannot read properties of undefined (reading 'id') 
+2024-05-01 15:59:02 error : Cannot read properties of undefined (reading 'id') 
+2024-05-01 15:59:24 error : Cannot read properties of undefined (reading 'id') 
+2024-05-01 16:01:23 error : Cannot read properties of undefined (reading 'id') 
+2024-05-01 16:01:24 error : Cannot read properties of undefined (reading 'id') 
+2024-05-01 16:02:51 error : WHERE parameter "id" has invalid "undefined" value 
+2024-05-01 16:30:45 error : Cannot read properties of undefined (reading 'id') 
+2024-05-01 16:37:25 error : Invalid login detail 
+2024-05-01 22:40:28 error : Cannot read properties of undefined (reading 'id') 
+2024-05-01 22:41:33 error : Cannot read properties of undefined (reading 'id') 
+2024-05-01 22:41:36 error : Cannot read properties of undefined (reading 'id') 
+2024-05-01 22:46:56 error : WHERE parameter "id" has invalid "undefined" value 
+2024-05-01 22:51:47 error : Cannot read properties of undefined (reading 'id') 
+2024-05-01 22:51:50 error : Cannot read properties of undefined (reading 'id') 
+2024-05-01 22:52:51 error : WHERE parameter "id" has invalid "undefined" value 
+2024-05-01 23:08:33 error : Cannot read properties of undefined (reading 'id') 
+2024-05-01 23:29:25 error : WHERE parameter "id" has invalid "undefined" value 
+2024-05-01 23:30:00 error : WHERE parameter "id" has invalid "undefined" value 
+2024-05-01 23:30:04 error : WHERE parameter "id" has invalid "undefined" value 
+2024-05-01 23:30:51 error : WHERE parameter "id" has invalid "undefined" value 
+2024-05-01 23:31:29 error : WHERE parameter "id" has invalid "undefined" value 
+2024-05-01 23:32:19 error : WHERE parameter "id" has invalid "undefined" value 
+2024-05-01 23:32:20 error : WHERE parameter "id" has invalid "undefined" value 
+2024-05-01 23:32:21 error : WHERE parameter "id" has invalid "undefined" value 
+2024-05-01 23:37:48 error : WHERE parameter "id" has invalid "undefined" value 
+2024-05-01 23:38:01 error : WHERE parameter "id" has invalid "undefined" value 
