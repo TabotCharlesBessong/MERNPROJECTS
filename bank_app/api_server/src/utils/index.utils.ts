@@ -48,12 +48,17 @@ const logger = createLogger({
   ],
 });
 
+const isEmpty = (data:any) => {
+  return !data || data.length === 0 || typeof data == 'undefined' || Object.keys(data).length == 0
+}
+
 const Utility = {
   printRed,
   handleError,
   handleSuccess,
   generateCode,
-  logger
+  logger,
+  isEmpty
 }
 
 export default Utility
