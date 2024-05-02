@@ -52,13 +52,32 @@ const isEmpty = (data:any) => {
   return !data || data.length === 0 || typeof data == 'undefined' || Object.keys(data).length == 0
 }
 
+const escapeHtml = (html:string) => {
+  return html.replace(/[&<>"']/g,'')
+}
+
+const parseToObject = (value:string):any => {
+  let counter = 0
+  let data = JSON.parse(value)
+  while(counter <=2){
+    if(typeof data == "object") break
+    else{
+      data = JSON.parse(data)
+      counter++
+    }
+  }
+  return data
+}
+
 const Utility = {
   printRed,
   handleError,
   handleSuccess,
   generateCode,
   logger,
-  isEmpty
+  isEmpty,
+  escapeHtml,
+  parseToObject
 }
 
 export default Utility
