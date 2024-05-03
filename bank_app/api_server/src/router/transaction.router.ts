@@ -5,11 +5,12 @@ import TransactionController from "../controllers/transaction.controller";
 import ValidationSchema from "../validators/transaction.validator.schema";
 import { Auth, validator } from "../middlewares/index.middlewares";
 
-const router = express.Router();
-const transactionService = new TransactionService(new TransactionDataSource());
-const transactionController = new TransactionController(transactionService);
 
 const createTransactionRoute = () => {
+  // console.log(1);
+  const router = express.Router();
+  const transactionService = new TransactionService(new TransactionDataSource());
+  const transactionController = new TransactionController(transactionService);
   router.post(
     "/initiate-paystack-deposit",
     validator(ValidationSchema.initiatePaystackDeposit),
@@ -18,6 +19,7 @@ const createTransactionRoute = () => {
       return transactionController.initiatePaystackDeposit(req, res);
     }
   );
+  // console.log(2);
   return router;
 };
 

@@ -18,6 +18,7 @@ class TransactionController {
         params.user.email,
         params.amount
       );
+      console.log("1XXXXXXXX2-------3XXXXXXX41");
       if (!depositInfo) {
         return Utility.handleError(
           res,
@@ -25,6 +26,7 @@ class TransactionController {
           ResponseCode.NOT_FOUND
         );
       }
+      console.log("1XXXXXXXX2-------3XXXXXXX42");
       const newTransaction = {
         userId: params.user.id,
         accountId: params.accountId,
@@ -36,6 +38,7 @@ class TransactionController {
       let deposit = await this.transactionService.depositByPayStack(
         newTransaction
       );
+      console.log("1XXXXXXXX2-------3XXXXXXX43");
       return Utility.handleSuccess(
         res,
         "Transaction created successfully",
@@ -43,6 +46,7 @@ class TransactionController {
         ResponseCode.SUCCESS
       );
     } catch (error) {
+      console.log("5XXXXXXX6--------7XXXXXX8");
       return Utility.handleError(
         res,
         (error as TypeError).message,

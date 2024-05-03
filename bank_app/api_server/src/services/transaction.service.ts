@@ -10,6 +10,7 @@ class TransactionService {
   }
 
   async depositByPayStack(data:Partial<ITransaction>):Promise<ITransaction>{
+    console.log("Y1XXXXXXXX2-------3XXXXXXX41");
     const deposit = {
       ...data,
       type:TransactionTypes.DEPOSIT,
@@ -19,6 +20,7 @@ class TransactionService {
       },
       status:TransactionStatus.IN_PROGRESS
     } as ITransactionCreationBody
+    console.log("Y1XXXXXXXX2-------3XXXXXXX42");
     return this.transactionDataSource.create(deposit)
   }
 }
