@@ -39,8 +39,7 @@ class AccountController {
       const params = { ...req.body };
       let accounts = await this.accountService.getAccountsByUserId(
         params.user.id
-      );
-      console.log("1XXXXXXXX2-------3XXXXXXX4")
+      );      
       return Utility.handleSuccess(
         res,
         "Account fetched successfully",
@@ -48,7 +47,6 @@ class AccountController {
         ResponseCode.SUCCESS
       );
     } catch (error) {
-      console.log("5XXXXXXX6--------7XXXXXX8")
       return Utility.handleError(
         res,
         (error as TypeError).message,
