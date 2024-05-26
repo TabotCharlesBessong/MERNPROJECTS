@@ -1,11 +1,14 @@
+import { autoInjectable } from "tsyringe"
 import { TransactionGateWay, TransactionStatus, TransactionTypes } from "../interfaces/enum/transaction.enum"
 import { ITokenCreationBody } from "../interfaces/token.interface"
 import { ITransaction, ITransactionCreationBody, ITransactionDataSource } from "../interfaces/transaction.interface"
+import TransactionDataSource from "../datasources/transaction.datasource"
 
+// @autoInjectable()
 class TransactionService {
-  private transactionDataSource:ITransactionDataSource
+  private transactionDataSource:TransactionDataSource
 
-  constructor(_transactionDataSource:ITransactionDataSource){
+  constructor(_transactionDataSource:TransactionDataSource){
     this.transactionDataSource = _transactionDataSource
   }
 
