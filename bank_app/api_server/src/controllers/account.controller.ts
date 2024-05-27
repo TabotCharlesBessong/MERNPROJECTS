@@ -68,7 +68,6 @@ class AccountController {
           ResponseCode.BAD_REQUEST
         );
       }
-      console.log("1XXXXXXXX2-------3XXXXXXX4");
       return Utility.handleSuccess(
         res,
         "Account fetched successfully",
@@ -76,7 +75,6 @@ class AccountController {
         ResponseCode.SUCCESS
       );
     } catch (error) {
-      console.log("5XXXXXXXX6-------7XXXXXXX8");
       return Utility.handleError(
         res,
         (error as TypeError).message,

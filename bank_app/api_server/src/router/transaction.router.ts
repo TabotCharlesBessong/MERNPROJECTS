@@ -1,17 +1,21 @@
 import express, { Request, Response } from "express";
-import TransactionService from "../services/transaction.service";
-import TransactionDataSource from "../datasources/transaction.datasource";
 import TransactionController from "../controllers/transaction.controller";
-import ValidationSchema from "../validators/transaction.validator.schema";
+import AccountDataSource from "../datasources/account.datasource";
+import TransactionDataSource from "../datasources/transaction.datasource";
 import { Auth, validator } from "../middlewares/index.middlewares";
-import { container } from "tsyringe";
+import AccountService from "../services/account.service";
+import TransactionService from "../services/transaction.service";
+import ValidationSchema from "../validators/transaction.validator.schema";
 
 const router = express.Router();
+const accountService = new AccountService(new AccountDataSource());
 const transactionService = new TransactionService(new TransactionDataSource());
-const transactionController = new TransactionController(transactionService)
+const transactionController = new TransactionController(
+  transactionService,
+  accountService
+);
 
 const createTransactionRoute = () => {
-  // console.log(1);
   router.post(
     "/initiate-paystack-deposit",
     validator(ValidationSchema.initiatePaystackDeposit),
@@ -20,7 +24,15 @@ const createTransactionRoute = () => {
       return transactionController.initiatePaystackDeposit(req, res);
     }
   );
-  // console.log(2);
+
+  router.post(
+    "/verify-paystack-deposit",
+    validator(ValidationSchema.verifyPaystackDeposit),
+    Auth(),
+    (req: Request, res: Response) => {
+      return transactionController.verifyPaystackDeposit(req, res);
+    }
+  );
   return router;
 };
 

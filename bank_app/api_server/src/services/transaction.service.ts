@@ -1,8 +1,10 @@
 import { autoInjectable } from "tsyringe"
 import { TransactionGateWay, TransactionStatus, TransactionTypes } from "../interfaces/enum/transaction.enum"
 import { ITokenCreationBody } from "../interfaces/token.interface"
-import { ITransaction, ITransactionCreationBody, ITransactionDataSource } from "../interfaces/transaction.interface"
+import { IFindTransactionQuery, ITransaction, ITransactionCreationBody, ITransactionDataSource } from "../interfaces/transaction.interface"
 import TransactionDataSource from "../datasources/transaction.datasource"
+import { raw } from "express"
+import { where } from "sequelize"
 
 // @autoInjectable()
 class TransactionService {
@@ -12,8 +14,15 @@ class TransactionService {
     this.transactionDataSource = _transactionDataSource
   }
 
+  async fetchTransactionByReference(reference:string):Promise<ITransaction | null>{
+    const query = {
+      where:{reference},
+      raw:true
+    }
+    return this.transactionDataSource.fetchOne(query)
+  }
+
   async depositByPayStack(data:Partial<ITransaction>):Promise<ITransaction>{
-    console.log("Y1XXXXXXXX2-------3XXXXXXX41");
     const deposit = {
       ...data,
       type:TransactionTypes.DEPOSIT,
@@ -23,8 +32,15 @@ class TransactionService {
       },
       status:TransactionStatus.IN_PROGRESS
     } as ITransactionCreationBody
-    console.log("Y1XXXXXXXX2-------3XXXXXXX42");
     return this.transactionDataSource.create(deposit)
+  }
+
+  async setStatus(transactionId:string,status:string,options:Partial<IFindTransactionQuery> = {}):Promise<void>{
+    const filter = {where:{id:transactionId},...options}
+    const update = {
+      status
+    }
+    await this.transactionDataSource.updateOne(update,filter)
   }
 }
 
