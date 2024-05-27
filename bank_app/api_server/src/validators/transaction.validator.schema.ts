@@ -9,9 +9,16 @@ const verifyPaystackDeposit = yup.object({
   reference:yup.string().trim().required()
 })
 
+const makeInternalTransferSchema = yup.object({
+  senderAccountId:yup.string().trim().required(),
+  receiverAccountNumber:yup.string().trim().required(),
+  amount:yup.number().required()
+})
+
 const ValidationSchema = {
   initiatePaystackDeposit,
-  verifyPaystackDeposit
+  verifyPaystackDeposit,
+  makeInternalTransferSchema
 }
 
 export default ValidationSchema
