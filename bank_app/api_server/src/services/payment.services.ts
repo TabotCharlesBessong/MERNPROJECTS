@@ -4,7 +4,6 @@ import axios from "axios";
 
 class PaymentService {
   private static generatePaystackReference(): string {
-    console.log("X1XXXXXXXX2-------3XXXXXXX41");
     return uuidv4();
   }
 
@@ -12,9 +11,7 @@ class PaymentService {
     email: string,
     amount: number
   ): Promise<IPayStackPaymentObject | null> {
-    console.log("X1XXXXXXXX2-------3XXXXXXX42");
     try {
-      console.log("X1XXXXXXXX2-------3XXXXXXX43");
       const amountInKobo = amount * 100;
       const params = {
         email,
@@ -23,7 +20,6 @@ class PaymentService {
         callback_url: `${process.env.PAYSTACK_CALLBACK_URL}`,
         reference: PaymentService.generatePaystackReference(),
       };
-      console.log("X1XXXXXXXX2-------3XXXXXXX44");
       const config = {
         headers: {
           Authorization: `Bearer ${process.env.PAYSTACK_SECRET_KEY}`,
@@ -39,6 +35,28 @@ class PaymentService {
       return null;
     } catch (error) {
       return null;
+    }
+  }
+
+  public static async verifyPaystackPayment(reference: string, amount: number) {
+    try {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${process.env.PAYSTACK_SECRET_KEY}`,
+          "Content-Type": "application/json",
+        },
+      };
+      const { data } = await axios.get(
+        `https://api.paystack.co/transaction/verify/${reference}`,
+        config
+      );
+      if (data && data.status) {
+        const { amount: amountInKobo } = data.data;
+        if (amountInKobo !== amount * 100) return false;
+        return true;
+      }
+    } catch (error) {
+      return false;
     }
   }
 }
