@@ -6,6 +6,8 @@ import AccountService from "../services/account.service";
 import PaymentService from "../services/payment.services";
 import TransactionService from "../services/transaction.service";
 import Utility from "../utils/index.utils";
+import { IAccount } from "../interfaces/account.interface";
+import { ITransaction } from "../interfaces/transaction.interface";
 
 class TransactionController {
   private transactionService: TransactionService;
@@ -131,6 +133,106 @@ class TransactionController {
       return Utility.handleError(
         res,
         (error as TypeError).message,
+        ResponseCode.SERVER_ERROR
+      );
+    }
+  }
+
+  private async transfer(
+    senderAccount: IAccount,
+    receiverAccount: IAccount,
+    amount: number
+  ): Promise<{ status: boolean; transaction: ITransaction | null }> {
+    const tx = await sequelize.transaction();
+    try {
+      await this.accountService.topUpBalance(senderAccount.id, amount, {
+        transaction: tx,
+      });
+      await this.accountService.topUpBalance(receiverAccount.id, amount, {
+        transaction: tx,
+      });
+      const newTransaction = {
+        userId: senderAccount.id,
+        accountId: senderAccount.id,
+        amount,
+        detail: {
+          receiverAccountNumber: receiverAccount.accountNumber,
+        },
+      };
+      let transfer = await this.transactionService.processInternalTransfer(
+        newTransaction,
+        { transaction: tx }
+      );
+      await tx.commit();
+      return { status: true, transaction: transfer };
+    } catch (error) {
+      await tx.rollback();
+      return { status: false, transaction: null };
+    }
+  }
+
+  async internalTransfer(req: Request, res: Response) {
+    try {
+      const params = { ...req.body };
+      const senderAccount = await this.accountService.getAccountByField({
+        id: params.senderAccountId,
+      });
+      if (!senderAccount)
+        return Utility.handleError(
+          res,
+          "Invalid sender account",
+          ResponseCode.NOT_FOUND
+        );
+      if (senderAccount.balance < params.amount)
+        return Utility.handleError(
+          res,
+          "Insufficient Balance to complete this transfer",
+          ResponseCode.BAD_REQUEST
+        );
+      if (params.amount <= 0)
+        return Utility.handleError(
+          res,
+          "Amount must be above zero",
+          ResponseCode.BAD_REQUEST
+        );
+
+      const receiverAccount = await this.accountService.getAccountByField({
+        accountNumber: params.receiverAccountNumber,
+      });
+      if (!receiverAccount)
+        return Utility.handleError(
+          res,
+          "Invalid receiver account",
+          ResponseCode.NOT_FOUND
+        );
+      if (senderAccount.userId == receiverAccount.userId)
+        return Utility.handleError(
+          res,
+          "User can not transfer to his own account",
+          ResponseCode.NOT_FOUND
+        );
+
+      const result = await this.transfer(
+        senderAccount,
+        receiverAccount,
+        params.amount
+      );
+      if (!result.status)
+        return Utility.handleError(
+          res,
+          "Invalid transfer failed",
+          ResponseCode.BAD_REQUEST
+        );
+
+      return Utility.handleSuccess(
+        res,
+        "Transfer was completed successfully",
+        { transaction: result.transaction },
+        ResponseCode.SUCCESS
+      );
+    } catch (error) {
+      return (
+        Utility.handleError(res, (error as TypeError).message),
         ResponseCode.SERVER_ERROR
       );
     }

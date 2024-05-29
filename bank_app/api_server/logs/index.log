@@ -45,3 +45,6 @@
 2024-05-01 23:38:01 error : WHERE parameter "id" has invalid "undefined" value 
 2024-05-26 11:04:07 error :  
 2024-05-27 09:51:58 error : Authorization failed 
+2024-05-29 06:52:38 error : Transaction status not supported 
+2024-05-29 13:43:09 error : Invalid sender account 
+2024-05-29 13:49:10 error : Invalid sender account 
