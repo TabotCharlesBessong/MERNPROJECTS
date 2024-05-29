@@ -48,3 +48,5 @@
 2024-05-29 06:52:38 error : Transaction status not supported 
 2024-05-29 13:43:09 error : Invalid sender account 
 2024-05-29 13:49:10 error : Invalid sender account 
+2024-05-29 13:57:38 error : Amount must be above zero 
+2024-05-29 14:00:56 error : User can not transfer to his own account 
