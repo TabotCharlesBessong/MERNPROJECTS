@@ -145,7 +145,7 @@ class TransactionController {
   ): Promise<{ status: boolean; transaction: ITransaction | null }> {
     const tx = await sequelize.transaction();
     try {
-      await this.accountService.topUpBalance(senderAccount.id, amount, {
+      await this.accountService.topUpBalance(senderAccount.id, -amount, {
         transaction: tx,
       });
       await this.accountService.topUpBalance(receiverAccount.id, amount, {
