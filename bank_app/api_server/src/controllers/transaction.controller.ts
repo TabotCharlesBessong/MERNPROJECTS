@@ -152,7 +152,7 @@ class TransactionController {
         transaction: tx,
       });
       const newTransaction = {
-        userId: senderAccount.id,
+        userId: senderAccount.userId,
         accountId: senderAccount.id,
         amount,
         detail: {
