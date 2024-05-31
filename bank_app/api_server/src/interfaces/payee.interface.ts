@@ -7,7 +7,7 @@ export interface IPayeePaystackDetail {
 }
 
 export interface IPayeeDetail {
-  paystackRecipient?: string;
+  paystackRecipientId?: string;
 }
 
 export interface IPayee {

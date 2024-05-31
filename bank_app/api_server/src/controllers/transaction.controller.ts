@@ -1,24 +1,31 @@
 import { Request, Response } from "express";
 import sequelize from "../database";
 import { ResponseCode } from "../interfaces/enum/code.enum";
-import { TransactionStatus } from "../interfaces/enum/transaction.enum";
+import {
+  TransactionGateWay,
+  TransactionStatus,
+} from "../interfaces/enum/transaction.enum";
 import AccountService from "../services/account.service";
 import PaymentService from "../services/payment.services";
 import TransactionService from "../services/transaction.service";
 import Utility from "../utils/index.utils";
 import { IAccount } from "../interfaces/account.interface";
 import { ITransaction } from "../interfaces/transaction.interface";
+import PayeeService from "../services/payee.service";
 
 class TransactionController {
   private transactionService: TransactionService;
   private accountService: AccountService;
+  private payeeService: PayeeService;
 
   constructor(
     _transactionService: TransactionService,
-    _accountService: AccountService
+    _accountService: AccountService,
+    _payeeService: PayeeService
   ) {
     this.transactionService = _transactionService;
     this.accountService = _accountService;
+    this.payeeService = _payeeService;
   }
 
   private async deposit(
@@ -233,6 +240,144 @@ class TransactionController {
     } catch (error) {
       return (
         Utility.handleError(res, (error as TypeError).message),
+        ResponseCode.SERVER_ERROR
+      );
+    }
+  }
+
+  private async transferToExternalAccount(
+    senderAccount: IAccount,
+    receiverAccount: IAccount,
+    reference: string,
+    amount: number
+  ): Promise<{ status: boolean; transaction: ITransaction | null }> {
+    const tx = await sequelize.transaction();
+    try {
+      await this.accountService.topUpBalance(senderAccount.id, amount, {
+        transaction: tx,
+      });
+      const newTransaction = {
+        userId: senderAccount.userId,
+        reference,
+        accountId: senderAccount.id,
+        amount,
+        detail: {
+          receiverAccountNumber: receiverAccount.accountNumber,
+          gateway: TransactionGateWay.PAYSTACK,
+        },
+      };
+
+      let transfer = await this.transactionService.processExternalTransfer(
+        newTransaction,
+        { transaction: tx }
+      );
+
+      await tx.commit();
+      return { status: true, transaction: transfer };
+    } catch (error) {
+      return { status: false, transaction: null };
+    }
+  }
+
+  async withdrawByPaystack(req: Request, res: Response) {
+    try {
+      const params = { ...req.body };
+      const senderAccount = await this.accountService.getAccountByField({
+        id: params.senderAccountId,
+      });
+      if (!senderAccount) {
+        return Utility.handleError(
+          res,
+          "Invalid sender account",
+          ResponseCode.NOT_FOUND
+        );
+      }
+
+      if (senderAccount.balance < params.amount) {
+        return Utility.handleError(
+          res,
+          "Insufficient balance to complete this transfer",
+          ResponseCode.BAD_REQUEST
+        );
+      }
+
+      if (params.amount <= 0) {
+        return Utility.handleError(
+          res,
+          "Amount must be above zero",
+          ResponseCode.BAD_REQUEST
+        );
+      }
+
+      let payeeRecord = await this.payeeService.fetchPayeeAccountNumberAndBank(
+        params.receiverAccountNumber,
+        params.bankCode
+      );
+      let recipientID = "";
+      if (!payeeRecord) {
+        const paystackPayeeRecord = {
+          accountNumber: params.receiverAccountNumber,
+          accountName: params.receiverAccountName,
+          bankCode: params.bankCode,
+        };
+        recipientID = (await PaymentService.createPaystackRecipient(
+          paystackPayeeRecord
+        )) as string;
+        if (recipientID) {
+          payeeRecord = await this.payeeService.savePayeeRecord({
+            userId: params.user.id,
+            accountNumber: params.receiverAccountNumber,
+            accountName: params.receiverAccountName,
+            bankCode: params.bankCode,
+            detail: {
+              paystackRecipientId: recipientID,
+            },
+          });
+        } else {
+          return Utility.handleError(
+            res,
+            "Invalid payment account, please try another payment method",
+            ResponseCode.BAD_REQUEST
+          );
+        }
+      } else {
+        recipientID = payeeRecord.detail.paystackRecipientId as string;
+      }
+      const transferData = await PaymentService.initiatePaystackTransfer(
+        recipientID,
+        params.amount,
+        params.message
+      );
+      if (!transferData)
+        return Utility.handleError(
+          res,
+          "Paystack transfer failed",
+          ResponseCode.BAD_REQUEST
+        );
+
+      const result = await this.transferToExternalAccount(
+        senderAccount,
+        params.receiverAccountNumber,
+        transferData.reference,
+        params.amount
+      );
+
+      if (!result.status)
+        return Utility.handleError(
+          res,
+          "Withdrawl transaction failed",
+          ResponseCode.BAD_REQUEST
+        );
+      return Utility.handleSuccess(
+        res,
+        "Transaction was initialized successfully",
+        { transaction: result.transaction },
+        ResponseCode.SUCCESS
+      );
+    } catch (error) {
+      return Utility.handleError(
+        res,
+        (error as TypeError).message,
         ResponseCode.SERVER_ERROR
       );
     }
