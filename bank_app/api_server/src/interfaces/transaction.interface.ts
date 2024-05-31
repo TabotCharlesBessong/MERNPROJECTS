@@ -11,6 +11,11 @@ export interface IPaystackInitTransferObject {
   reference:string
 }
 
+export interface IPaystackInitTransferObject {
+  transferCode:string
+  reference:string
+}
+
 export interface ITransactionDetail {
   gateway?: string;
   receiverAccountNumber?: string;
