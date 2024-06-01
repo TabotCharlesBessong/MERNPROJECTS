@@ -6,6 +6,16 @@ export interface IPayStackPaymentObject {
   reference: string;
 }
 
+export interface IPaystackInitTransferObject {
+  transferCode:string
+  reference:string
+}
+
+export interface IPaystackInitTransferObject {
+  transferCode:string
+  reference:string
+}
+
 export interface ITransactionDetail {
   gateway?: string;
   receiverAccountNumber?: string;
@@ -42,7 +52,7 @@ export interface ITransactionModel
 
 export interface ITransactionDataSource {
   fetchOne(query: IFindTransactionQuery): Promise<ITransaction | null>;
-  create(record: ITransactionCreationBody): Promise<ITransaction>;
+  create(record: ITransactionCreationBody,options?:Partial<IFindTransactionQuery>): Promise<ITransaction>;
   updateOne(
     data: Partial<ITransaction>,
     query: IFindTransactionQuery
