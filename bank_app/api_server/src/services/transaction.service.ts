@@ -1,3 +1,5 @@
+import { autoInjectable } from "tsyringe";
+import { v4 as uuidv4 } from "uuid";
 import TransactionDataSource from "../datasources/transaction.datasource";
 import {
   TransactionGateWay,
@@ -9,9 +11,8 @@ import {
   ITransaction,
   ITransactionCreationBody,
 } from "../interfaces/transaction.interface";
-import { v4 as uuidv4 } from "uuid";
 
-// @autoInjectable()
+@autoInjectable()
 class TransactionService {
   private transactionDataSource: TransactionDataSource;
 

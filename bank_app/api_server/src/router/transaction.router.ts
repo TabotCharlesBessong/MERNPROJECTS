@@ -1,23 +1,11 @@
 import express, { Request, Response } from "express";
+import { container } from "tsyringe";
 import TransactionController from "../controllers/transaction.controller";
-import AccountDataSource from "../datasources/account.datasource";
-import TransactionDataSource from "../datasources/transaction.datasource";
 import { Auth, validator } from "../middlewares/index.middlewares";
-import AccountService from "../services/account.service";
-import TransactionService from "../services/transaction.service";
 import ValidationSchema from "../validators/transaction.validator.schema";
-import PayeeService from "../services/payee.service";
-import PayeeDataSource from "../datasources/payee.datasource";
 
 const router = express.Router();
-const accountService = new AccountService(new AccountDataSource());
-const transactionService = new TransactionService(new TransactionDataSource());
-const payeeService = new PayeeService(new PayeeDataSource());
-const transactionController = new TransactionController(
-  transactionService,
-  accountService,
-  payeeService
-);
+const transactionController = container.resolve(TransactionController)
 
 const createTransactionRoute = () => {
   router.post(

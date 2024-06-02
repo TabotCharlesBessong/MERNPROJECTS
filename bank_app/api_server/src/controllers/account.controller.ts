@@ -2,7 +2,9 @@ import { Request, Response } from "express";
 import AccountService from "../services/account.service";
 import Utility from "../utils/index.utils";
 import { ResponseCode } from "../interfaces/enum/code.enum";
+import { autoInjectable } from "tsyringe";
 
+@autoInjectable()
 class AccountController {
   private accountService: AccountService;
 

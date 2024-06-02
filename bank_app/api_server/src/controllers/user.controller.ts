@@ -1,20 +1,22 @@
+import bcrypt from "bcrypt";
 import { Request, Response } from "express";
-import UserService from "../services/user.services";
+import JWT from "jsonwebtoken";
+import moment from "moment";
+import { autoInjectable } from "tsyringe";
+import { ResponseCode } from "../interfaces/enum/code.enum";
 import {
   AccountStatus,
   EmailStatus,
   UserRoles,
 } from "../interfaces/enum/user.enum";
-import { IUserCreationBody } from "../interfaces/user.interfaces";
-import bcrypt from "bcrypt";
-import Utility from "../utils/index.utils";
-import { ResponseCode } from "../interfaces/enum/code.enum";
-import JWT from "jsonwebtoken";
-import TokenService from "../services/token.service";
 import { IToken } from "../interfaces/token.interface";
+import { IUserCreationBody } from "../interfaces/user.interfaces";
 import EmailService from "../services/email.service";
-import moment from "moment";
+import TokenService from "../services/token.service";
+import UserService from "../services/user.services";
+import Utility from "../utils/index.utils";
 
+@autoInjectable()
 class UserController {
   private userService: UserService;
   private tokenService: TokenService;

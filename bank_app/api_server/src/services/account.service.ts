@@ -1,3 +1,4 @@
+import { autoInjectable } from "tsyringe";
 import sequelize from "../database";
 import AccountDataSource from "../datasources/account.datasource";
 import {
@@ -7,6 +8,7 @@ import {
 } from "../interfaces/account.interface";
 import { AccountStatus } from "../interfaces/enum/user.enum";
 
+@autoInjectable()
 class AccountService {
   private accountDataSource: AccountDataSource;
   constructor(_accountDataSource: AccountDataSource) {
