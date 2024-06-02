@@ -4,10 +4,10 @@ import AccountDataSource from "../datasources/account.datasource";
 import AccountController from "../controllers/account.controller";
 import ValidationSchema from "../validators/account.validator.schema";
 import { Auth, validator } from "../middlewares/index.middlewares";
+import { container } from "tsyringe";
 
 const router = express.Router();
-const accountService = new AccountService(new AccountDataSource());
-const accountController = new AccountController(accountService);
+const accountController = container.resolve(AccountController)
 
 const createAccountRoute = () => {
   router.post(
