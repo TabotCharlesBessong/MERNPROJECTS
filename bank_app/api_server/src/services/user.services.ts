@@ -1,26 +1,34 @@
-// import { where } from "sequelize"
-import { IFindUserQuery, IUser, IUserCreationBody, IUserDataSource } from "../interfaces/user.interfaces"
-// import { raw } from "express"
+import { autoInjectable } from "tsyringe";
+import UserDataSource from "../datasources/user.datasource";
+import {
+  IFindUserQuery,
+  IUser,
+  IUserCreationBody,
+} from "../interfaces/user.interfaces";
 
+@autoInjectable()
 class UserService {
-  private userDataSource:IUserDataSource
-  constructor(_userDataSource:IUserDataSource) {
-    this.userDataSource = _userDataSource
+  private userDataSource: UserDataSource;
+  constructor(_userDataSource: UserDataSource) {
+    this.userDataSource = _userDataSource;
   }
 
-  async getUserByField(record:Partial<IUser>):Promise<IUser | null>{
-    const query = {where:{...record},raw:true} as IFindUserQuery
-    return this.userDataSource.fetchOne(query)
+  async getUserByField(record: Partial<IUser>): Promise<IUser | null> {
+    const query = { where: { ...record }, raw: true } as IFindUserQuery;
+    return this.userDataSource.fetchOne(query);
   }
 
-  async createUser(record:IUserCreationBody){
-    return this.userDataSource.create(record)
-  }  
+  async createUser(record: IUserCreationBody) {
+    return this.userDataSource.create(record);
+  }
 
-  async updateRecord(searchBy:Partial<IUser>,record:Partial<IUser>):Promise<void>{
-    const query = {where:{...searchBy}} as IFindUserQuery
-    await this.userDataSource.updateOne(query,record)
+  async updateRecord(
+    searchBy: Partial<IUser>,
+    record: Partial<IUser>
+  ): Promise<void> {
+    const query = { where: { ...searchBy } } as IFindUserQuery;
+    await this.userDataSource.updateOne(query, record);
   }
 }
 
-export default UserService
+export default UserService;
