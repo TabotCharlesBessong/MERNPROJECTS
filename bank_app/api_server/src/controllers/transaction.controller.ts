@@ -384,6 +384,49 @@ class TransactionController {
       );
     }
   }
+
+  async getAllUserTransactions(req: Request, res: Response) {
+    try {
+      const params = { ...req.body };
+      let filter = {} as ITransaction;
+      filter.userId = params.user.id;
+      if (params.accountId) {
+        filter.accountId = params.accountId;
+      }
+      let transactions = await this.transactionService.getTransactionsByField(
+        filter
+      );
+      return Utility.handleSuccess(
+        res,
+        "Transactions fetched successfully",
+        { transactions },
+        ResponseCode.SUCCESS
+      );
+    } catch (error) {
+      return Utility.handleError(
+        res,
+        (error as TypeError).message,
+        ResponseCode.SERVER_ERROR
+      );
+    }
+  }
+
+  async getUserTransaction(req:Request,res:Response){
+    try {
+      const params = {...req.params}
+      let transaction = await this.transactionService.getTransactionByField({id:Utility.escapeHtml(params.id)})
+      if(!transaction){
+        return Utility.handleError(res,"Transaction does not exist",ResponseCode.NOT_FOUND)
+      }
+      return Utility.handleSuccess(res,"Transaction fetched successfully",{transaction},ResponseCode.SUCCESS)
+    } catch (error) {
+      return Utility.handleError(
+        res,
+        (error as TypeError).message,
+        ResponseCode.SERVER_ERROR
+      );
+    }
+  }
 }
 
 export default TransactionController;

@@ -11,6 +11,7 @@ import {
   ITransaction,
   ITransactionCreationBody,
 } from "../interfaces/transaction.interface";
+import { raw } from "mysql2";
 
 @autoInjectable()
 class TransactionService {
@@ -90,6 +91,16 @@ class TransactionService {
     } as ITransactionCreationBody;
 
     return this.transactionDataSource.create(record, options);
+  }
+
+  async getTransactionsByField(record:Partial<ITransaction>):Promise<ITransaction[]>{
+    const query = {where:{...record},raw:true}
+    return this.transactionDataSource.fetchAll(query)
+  }
+
+  async getTransactionByField(record:Partial<ITransaction>):Promise<ITransaction | null>{
+    const query = {where:{...record},raw:true} as IFindTransactionQuery
+    return this.transactionDataSource.fetchOne(query)
   }
 }
 

@@ -43,6 +43,14 @@ const createTransactionRoute = () => {
       return transactionController.withdrawByPaystack(req, res);
     }
   );
+
+  router.get("/list",Auth(),(req:Request,res:Response) => {
+    return transactionController.getAllUserTransactions(req,res)
+  })
+  
+  router.get("/:id",Auth(),(req:Request,res:Response) => {
+    return transactionController.getUserTransaction(req,res)
+  })
   return router;
 };
 

@@ -50,3 +50,6 @@
 2024-05-29 13:49:10 error : Invalid sender account 
 2024-05-29 13:57:38 error : Amount must be above zero 
 2024-05-29 14:00:56 error : User can not transfer to his own account 
+2024-06-02 18:04:27 error : Authorization failed 
+2024-06-02 18:04:50 error : Authorization failed 
+2024-06-02 18:04:51 error : Authorization failed 
