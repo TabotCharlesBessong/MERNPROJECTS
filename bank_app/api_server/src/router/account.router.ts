@@ -7,7 +7,7 @@ import { Auth, validator } from "../middlewares/index.middlewares";
 import { container } from "tsyringe";
 
 const router = express.Router();
-const accountController = container.resolve(AccountController)
+const accountController = container.resolve(AccountController);
 
 const createAccountRoute = () => {
   router.post(
@@ -25,6 +25,14 @@ const createAccountRoute = () => {
 
   router.get("/list/:id", Auth(), (req: Request, res: Response) => {
     return accountController.getUserAccount(req, res);
+  });
+
+  router.get("/payee/list", Auth(), (req: Request, res: Response) => {
+    return accountController.getAllUserPayee(req, res);
+  });
+
+  router.get("/payee/:id", Auth(), (req: Request, res: Response) => {
+    return accountController.getUserPayee(req, res);
   });
   return router;
 };

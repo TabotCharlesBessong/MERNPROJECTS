@@ -1,10 +1,12 @@
 import { autoInjectable } from "tsyringe";
 import {
+  IFindPayeeQuery,
   IPayee,
   IPayeeCreationBody,
   IPayeeDataSource,
 } from "../interfaces/payee.interface";
 import PayeeDataSource from "../datasources/payee.datasource";
+import { raw } from "mysql2";
 
 @autoInjectable()
 class PayeeService {
@@ -30,6 +32,16 @@ class PayeeService {
       },
     } as IPayeeCreationBody;
     return await this.payeeDataSource.create(record);
+  }
+
+  async getPayeeByField(record:Partial<IPayee>):Promise<IPayee | null>{
+    const query = {where:{...record},raw:true} as IFindPayeeQuery
+    return this.payeeDataSource.fetchOne(query)
+  }
+
+  async getPayeesByUserId(userId:string):Promise<IPayee[]>{
+    const query = {where:{userId},raw:true} as IFindPayeeQuery
+    return this.payeeDataSource.fetchAll(query)
   }
 }
 
