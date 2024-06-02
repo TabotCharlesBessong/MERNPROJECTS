@@ -1,18 +1,20 @@
 import { Request, Response } from "express";
+import { autoInjectable } from "tsyringe";
 import sequelize from "../database";
+import { IAccount } from "../interfaces/account.interface";
 import { ResponseCode } from "../interfaces/enum/code.enum";
 import {
   TransactionGateWay,
   TransactionStatus,
 } from "../interfaces/enum/transaction.enum";
+import { ITransaction } from "../interfaces/transaction.interface";
 import AccountService from "../services/account.service";
+import PayeeService from "../services/payee.service";
 import PaymentService from "../services/payment.services";
 import TransactionService from "../services/transaction.service";
 import Utility from "../utils/index.utils";
-import { IAccount } from "../interfaces/account.interface";
-import { ITransaction } from "../interfaces/transaction.interface";
-import PayeeService from "../services/payee.service";
 
+@autoInjectable()
 class TransactionController {
   private transactionService: TransactionService;
   private accountService: AccountService;
