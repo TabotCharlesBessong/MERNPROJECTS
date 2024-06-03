@@ -15,6 +15,7 @@ import EmailService from "../services/email.service";
 import TokenService from "../services/token.service";
 import UserService from "../services/user.services";
 import Utility from "../utils/index.utils";
+import Permissions from "../permission";
 
 @autoInjectable()
 class UserController {
@@ -177,6 +178,47 @@ class UserController {
 
       await this.tokenService.updateRecord({id:isValidToken.id},{status:this.tokenService.TokenStatus.USED})
       return Utility.handleSuccess(res,"Password reset successfully",{},ResponseCode.SUCCESS)
+    } catch (error) {
+      return Utility.handleError(
+        res,
+        (error as TypeError).message,
+        ResponseCode.SERVER_ERROR
+      );
+    }
+  }
+
+  async getAllUsersByAdmin(req:Request,res:Response){
+    try {
+      const admin = {...req.body.user}
+      const permission = Permissions.can(admin.role).readAny("users")
+      if(!permission.granted) return Utility.handleError(res,"Invalid Permission",ResponseCode.NOT_FOUND)
+      let users = (await this.userService.getAllUsers())
+      if(users && users.length > 0){
+        users = users.map((item) => {
+          item.password = ""
+          return item
+        })
+      }
+      return Utility.handleSuccess(res,"User fetched successfully",{users},ResponseCode.SUCCESS)
+    } catch (error) {
+      return Utility.handleError(
+        res,
+        (error as TypeError).message,
+        ResponseCode.SERVER_ERROR
+      );
+    }
+  }
+
+  async getSignleUserById(req:Request,res:Response){
+    try {
+      const params = {...req.params}
+      const admin = {...req.body.user}
+      const permission = Permissions.can(admin.role).readAny("users")
+      if(!permission.granted) return Utility.handleError(res,"Invalid Permission",ResponseCode.NOT_FOUND)
+      let user = await this.userService.getUserByField({id:Utility.escapeHtml(params.id)})
+      if(!user) return Utility.handleError(res,"User does not exist",ResponseCode.NOT_FOUND)
+      user.password = ""
+      return Utility.handleSuccess(res,"User fetched successfully",{user},ResponseCode.SUCCESS)
     } catch (error) {
       return Utility.handleError(
         res,
