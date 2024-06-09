@@ -6,7 +6,7 @@ import { ResponseCode } from "../interfaces/enum/code.enum";
 import { IUser } from "../interfaces/user.interfaces";
 import UserService from "../services/user.services";
 import UserDataSource from "../datasources/user.datasource";
-import { UserRoles } from "../interfaces/enum/user.enum";
+import { AccountStatus, UserRoles } from "../interfaces/enum/user.enum";
 
 const userService = new UserService(new UserDataSource());
 
@@ -40,8 +40,16 @@ export const Auth = () => {
         if (!user) {
           throw new TypeError("Authorization failed");
         }
-        if (user.accountStatus == "DELETED") {
+        if (user.accountStatus == AccountStatus.DELETED) {
           throw new TypeError("Authorization failed");
+        }
+
+        if (user.accountStatus == AccountStatus.SUSPENDED) {
+          throw new TypeError("Account suspended");
+        }
+
+        if (user.accountStatus == AccountStatus.FROZEN) {
+          throw new TypeError("Account frozen");
         }
 
         req.body.user = decoded;
