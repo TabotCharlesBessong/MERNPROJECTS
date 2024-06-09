@@ -7,6 +7,7 @@ import DbInitialize from "./database/init";
 import userRouter from "./router/user.router";
 import accountRouter from "./router/account.router";
 import transactionRouter from "./router/transaction.router";
+import adminRouter from "./router/admin.router";
 
 //create an app
 const app = express();
@@ -33,6 +34,7 @@ app.use((err: TypeError, req: Request, res: Response, next: NextFunction) => {
 app.use("/api/user", userRouter);
 app.use("/api/account", accountRouter);
 app.use("/api/transaction", transactionRouter);
+app.use("/api/admin", adminRouter);
 
 app.get("/", (req: Request, res: Response) => {
   res.send(`Welcome to ${process.env.APPNAME}`);
