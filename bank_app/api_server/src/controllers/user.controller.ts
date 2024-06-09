@@ -151,11 +151,7 @@ class UserController {
         status: this.tokenService.TokenStatus.NOTUSED,
       });
 
-      if(!isValidToken){
-        return Utility.handleError(res,"Token has expired",ResponseCode.NOT_FOUND)
-      }
-
-      if(isValidToken && moment(isValidToken.expires).diff(moment(),"minute")<=0){
+      if (!isValidToken) {
         return Utility.handleError(
           res,
           "Token has expired",
@@ -163,8 +159,19 @@ class UserController {
         );
       }
 
-      let user = await this.userService.getUserByField({email:params.email})
-      if(!user){
+      if (
+        isValidToken &&
+        moment(isValidToken.expires).diff(moment(), "minute") <= 0
+      ) {
+        return Utility.handleError(
+          res,
+          "Token has expired",
+          ResponseCode.NOT_FOUND
+        );
+      }
+
+      let user = await this.userService.getUserByField({ email: params.email });
+      if (!user) {
         return Utility.handleError(
           res,
           "Invalid user records",
@@ -172,12 +179,23 @@ class UserController {
         );
       }
 
-      const _password = bcrypt.hashSync(params.password,10)
+      const _password = bcrypt.hashSync(params.password, 10);
 
-      await this.userService.updateRecord({id:user.id},{password:_password})
+      await this.userService.updateRecord(
+        { id: user.id },
+        { password: _password }
+      );
 
-      await this.tokenService.updateRecord({id:isValidToken.id},{status:this.tokenService.TokenStatus.USED})
-      return Utility.handleSuccess(res,"Password reset successfully",{},ResponseCode.SUCCESS)
+      await this.tokenService.updateRecord(
+        { id: isValidToken.id },
+        { status: this.tokenService.TokenStatus.USED }
+      );
+      return Utility.handleSuccess(
+        res,
+        "Password reset successfully",
+        {},
+        ResponseCode.SUCCESS
+      );
     } catch (error) {
       return Utility.handleError(
         res,
@@ -187,19 +205,29 @@ class UserController {
     }
   }
 
-  async getAllUsersByAdmin(req:Request,res:Response){
+  async getAllUsersByAdmin(req: Request, res: Response) {
     try {
-      const admin = {...req.body.user}
-      const permission = Permissions.can(admin.role).readAny("users")
-      if(!permission.granted) return Utility.handleError(res,"Invalid Permission",ResponseCode.NOT_FOUND)
-      let users = (await this.userService.getAllUsers())
-      if(users && users.length > 0){
+      const admin = { ...req.body.user };
+      const permission = Permissions.can(admin.role).readAny("users");
+      if (!permission.granted)
+        return Utility.handleError(
+          res,
+          "Invalid Permission",
+          ResponseCode.NOT_FOUND
+        );
+      let users = await this.userService.getAllUsers();
+      if (users && users.length > 0) {
         users = users.map((item) => {
-          item.password = ""
-          return item
-        })
+          item.password = "";
+          return item;
+        });
       }
-      return Utility.handleSuccess(res,"User fetched successfully",{users},ResponseCode.SUCCESS)
+      return Utility.handleSuccess(
+        res,
+        "User fetched successfully",
+        { users },
+        ResponseCode.SUCCESS
+      );
     } catch (error) {
       return Utility.handleError(
         res,
@@ -209,16 +237,96 @@ class UserController {
     }
   }
 
-  async getSignleUserById(req:Request,res:Response){
+  async getSignleUserById(req: Request, res: Response) {
     try {
-      const params = {...req.params}
-      const admin = {...req.body.user}
-      const permission = Permissions.can(admin.role).readAny("users")
-      if(!permission.granted) return Utility.handleError(res,"Invalid Permission",ResponseCode.NOT_FOUND)
-      let user = await this.userService.getUserByField({id:Utility.escapeHtml(params.id)})
-      if(!user) return Utility.handleError(res,"User does not exist",ResponseCode.NOT_FOUND)
-      user.password = ""
-      return Utility.handleSuccess(res,"User fetched successfully",{user},ResponseCode.SUCCESS)
+      const params = { ...req.params };
+      const admin = { ...req.body.user };
+      const permission = Permissions.can(admin.role).readAny("users");
+      if (!permission.granted)
+        return Utility.handleError(
+          res,
+          "Invalid Permission",
+          ResponseCode.NOT_FOUND
+        );
+      let user = await this.userService.getUserByField({
+        id: Utility.escapeHtml(params.id),
+      });
+      if (!user)
+        return Utility.handleError(
+          res,
+          "User does not exist",
+          ResponseCode.NOT_FOUND
+        );
+      user.password = "";
+      return Utility.handleSuccess(
+        res,
+        "User fetched successfully",
+        { user },
+        ResponseCode.SUCCESS
+      );
+    } catch (error) {
+      return Utility.handleError(
+        res,
+        (error as TypeError).message,
+        ResponseCode.SERVER_ERROR
+      );
+    }
+  }
+
+  async setAccountStatus(req: Request, res: Response) {
+    try {
+      const params = { ...req.body };
+      const admin = { ...req.body.user };
+      const permission = Permissions.can(admin.role).updateAny("users");
+      if (!permission.granted)
+        return Utility.handleError(
+          res,
+          "Invalid Permission",
+          ResponseCode.NOT_FOUND
+        );
+      let user = await this.userService.getUserByField({ id: params.userId });
+      if (!user)
+        return Utility.handleError(
+          res,
+          "Invalid User Record",
+          ResponseCode.NOT_FOUND
+        );
+      await this.userService.updateRecord(
+        { id: user.id },
+        { accountStatus: params.status }
+      );
+      return Utility.handleSuccess(
+        res,
+        "Account status updated successful ",
+        {},
+        ResponseCode.SUCCESS
+      );
+    } catch (error) {
+      return Utility.handleError(
+        res,
+        (error as TypeError).message,
+        ResponseCode.SERVER_ERROR
+      );
+    }
+  }
+
+  async getProfile(req: Request, res: Response) {
+    try {
+      const params = { ...req.body };
+      let user = await this.userService.getUserByField({ id: params.user.id });
+      if (!user)
+        return Utility.handleError(
+          res,
+          "User does not exist",
+          ResponseCode.NOT_FOUND
+        );
+      user.password = "";
+      return Utility.handleSuccess(
+        res,
+        "User fetched successfully",
+        { user },
+        ResponseCode.SUCCESS
+      );
     } catch (error) {
       return Utility.handleError(
         res,
