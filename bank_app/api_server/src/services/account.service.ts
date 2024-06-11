@@ -76,6 +76,11 @@ class AccountService {
     };
     return await this.accountDataSource.updateOne(filter, update as any);
   }
+
+  async getAccounts(): Promise<IAccount[]>{
+    const query = {where:{},raw:true}
+    return this.accountDataSource.fetchAll(query)
+  }
 }
 
 export default AccountService;

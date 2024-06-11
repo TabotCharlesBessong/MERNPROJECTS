@@ -39,3 +39,5 @@ class LoanService {
     await this.loanDataSource.updateOne(record, query);
   }
 }
+
+export default LoanService
