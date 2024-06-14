@@ -1,11 +1,14 @@
+import { autoInjectable } from "tsyringe";
+import sequelize from "../database";
 import AccountDataSource from "../datasources/account.datasource";
 import {
   IAccount,
   IAccountCreationBody,
-  IFindAccountQuery
+  IFindAccountQuery,
 } from "../interfaces/account.interface";
 import { AccountStatus } from "../interfaces/enum/user.enum";
 
+@autoInjectable()
 class AccountService {
   private accountDataSource: AccountDataSource;
   constructor(_accountDataSource: AccountDataSource) {
@@ -60,6 +63,23 @@ class AccountService {
       raw: true,
     } as IFindAccountQuery;
     return this.accountDataSource.fetchOne(query);
+  }
+
+  async topUpBalance(
+    accountId: string,
+    amount: number,
+    options?: Partial<IFindAccountQuery>
+  ) {
+    const filter = { where: { id: accountId }, ...options };
+    const update = {
+      balance: sequelize.literal(`balance+${amount}`),
+    };
+    return await this.accountDataSource.updateOne(filter, update as any);
+  }
+
+  async getAccounts(): Promise<IAccount[]>{
+    const query = {where:{},raw:true}
+    return this.accountDataSource.fetchAll(query)
   }
 }
 

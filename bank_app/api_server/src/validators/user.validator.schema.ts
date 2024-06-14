@@ -1,11 +1,12 @@
-import * as yup from "yup"
+import * as yup from "yup";
+import { AccountStatus } from "../interfaces/enum/user.enum";
 
 const registrationSchema = yup.object({
-  firstname:yup.string().lowercase().trim().required(),
-  lastname:yup.string().lowercase().trim().required(),
-  email:yup.string().email().lowercase().trim().required(),
-  password:yup.string().min(6).trim().required()
-})
+  firstname: yup.string().lowercase().trim().required(),
+  lastname: yup.string().lowercase().trim().required(),
+  email: yup.string().email().lowercase().trim().required(),
+  password: yup.string().min(6).trim().required(),
+});
 
 const loginSchema = yup.object({
   email: yup.string().email().lowercase().trim().required(),
@@ -22,11 +23,18 @@ const resetPasswordSchema = yup.object({
   password: yup.string().min(6).trim().required(),
 });
 
+const setAccountStatusSchema = yup.object({
+  userId: yup.string().trim().required(),
+  status: yup.string().uppercase().oneOf(Object.values(AccountStatus)),
+});
+
 const validationSchema = {
   registrationSchema,
   loginSchema,
   forgotPasswordSchema,
-  resetPasswordSchema
-}
+  resetPasswordSchema,
+  setAccountStatusSchema
+};
 
-export default validationSchema
+
+export default validationSchema;
