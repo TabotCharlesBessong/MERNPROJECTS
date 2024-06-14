@@ -7,6 +7,8 @@ import PayeeService from "../services/payee.service";
 import LoanService from "../services/loan.services";
 import TransactionService from "../services/transaction.service";
 import Permissions from "../permission";
+import { LoanInterest, LoanMinimumTransactionPercent, LoanStatus } from "../interfaces/enum/loan.enum";
+import { ILoan } from "../interfaces/loan.interface";
 
 @autoInjectable()
 class AccountController {
@@ -198,6 +200,181 @@ class AccountController {
         res,
         "Account fetched successfully",
         { account },
+        ResponseCode.SUCCESS
+      );
+    } catch (error) {
+      return Utility.handleError(
+        res,
+        (error as TypeError).message,
+        ResponseCode.SERVER_ERROR
+      );
+    }
+  }
+
+  async applyLoan(req: Request, res: Response) {
+    try {
+      const params = { ...req.body };
+      let loanExists = await this.loanService.getLoanByField({
+        accountId: params.accountId,
+        status: LoanStatus.PENDING,
+      });
+      if (loanExists)
+        return Utility.handleError(
+          res,
+          "You already have a loan pending and awaiting our approval with this account",
+          ResponseCode.NOT_FOUND
+        );
+      loanExists = await this.loanService.getLoanByField({
+        accountId: params.accountId,
+        status: LoanStatus.ACTIVE,
+      });
+      if (loanExists)
+        return Utility.handleError(
+          res,
+          "You already have a loan active on this account",
+          ResponseCode.NOT_FOUND
+        );
+
+      let account = await this.accountService.getAccountByField({
+        id: params.accountId,
+      });
+      if (!account)
+        return Utility.handleError(
+          res,
+          "Account does not exist",
+          ResponseCode.NOT_FOUND
+        );
+
+      if (account.userId != params.user.id)
+        return Utility.handleError(
+          res,
+          "Account does not belong to owner",
+          ResponseCode.NOT_FOUND
+        );
+      const totalAmountTransacted =
+        await this.transactionService.getTransactionSum("amount", {
+          userId: params.user.id,
+          accountId: params.accountId,
+        });
+      const minRequiredTransaction =
+        totalAmountTransacted * LoanMinimumTransactionPercent;
+      if (minRequiredTransaction > params.amount) {
+        return Utility.handleError(
+          res,
+          "You are not eligible for this loan",
+          ResponseCode.NOT_FOUND
+        );
+      }
+      const newLoan = {
+        userId: params.user.id,
+        accountId: params.accountId,
+        amount: params.amount,
+        interest: LoanInterest,
+      } as Partial<ILoan>;
+      let loan = await this.loanService.createLoan(newLoan);
+      return Utility.handleSuccess(
+        res,
+        "Loan created successfully",
+        { loan },
+        ResponseCode.SUCCESS
+      );
+    } catch (error) {
+      return Utility.handleError(
+        res,
+        (error as TypeError).message,
+        ResponseCode.SERVER_ERROR
+      );
+    }
+  }
+
+  async getAllUserLoan(req: Request, res: Response) {
+    try {
+      const params = { ...req.body };
+      let loans = await this.loanService.getLoansByUserId(params.user.id);
+      return Utility.handleSuccess(
+        res,
+        "Loans fetched successfully",
+        { loans },
+        ResponseCode.SUCCESS
+      );
+    } catch (error) {
+      return Utility.handleError(
+        res,
+        (error as TypeError).message,
+        ResponseCode.SERVER_ERROR
+      );
+    }
+  }
+
+  async getLoansAdmin(req: Request, res: Response) {
+    try {
+      const params = { ...req.params };
+      const admin = { ...req.body.user };
+      const permission = Permissions.can(admin.role).readAny("loans");
+      if (!permission.granted) {
+        return Utility.handleError(
+          res,
+          "Invalid Permission",
+          ResponseCode.NOT_FOUND
+        );
+      }
+      let loans = await this.loanService.getLoans();
+      return Utility.handleSuccess(
+        res,
+        "Loans fetched successfully",
+        { loans },
+        ResponseCode.SUCCESS
+      );
+    } catch (error) {
+      return Utility.handleError(
+        res,
+        (error as TypeError).message,
+        ResponseCode.SERVER_ERROR
+      );
+    }
+  }
+
+  async approveOrDeclineLoanByAdmin(req: Request, res: Response) {
+    try {
+      const params = { ...req.body };
+      const admin = { ...req.body.user };
+      const permission = Permissions.can(admin.role).updateAny("loans");
+      if (!permission.granted) {
+        return Utility.handleError(
+          res,
+          "Invalid Permission",
+          ResponseCode.NOT_FOUND
+        );
+      }
+
+      let loan = await this.loanService.getLoanByField({ id: params.loanId });
+      if (!loan) {
+        return Utility.handleError(
+          res,
+          "Invalid loan Record",
+          ResponseCode.NOT_FOUND
+        );
+      }
+
+      if (loan.status != LoanStatus.PENDING) {
+        return Utility.handleError(
+          res,
+          "Loan has already been processed",
+          ResponseCode.NOT_FOUND
+        );
+      }
+
+      await this.loanService.updateRecord(
+        { id: loan.id },
+        { status: params.status }
+      );
+      if (params.status == LoanStatus.ACTIVE) {
+        await this.accountService.topUpBalance(loan.accountId, loan.amount);
+      }
+      return Utility.handleSuccess(
+        res,
+        "Loan status updated successful ",
+        {},
         ResponseCode.SUCCESS
       );
     } catch (error) {

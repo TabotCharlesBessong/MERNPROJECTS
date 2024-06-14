@@ -68,7 +68,7 @@ class AccountService {
   async topUpBalance(
     accountId: string,
     amount: number,
-    options: Partial<IFindAccountQuery>
+    options?: Partial<IFindAccountQuery>
   ) {
     const filter = { where: { id: accountId }, ...options };
     const update = {
