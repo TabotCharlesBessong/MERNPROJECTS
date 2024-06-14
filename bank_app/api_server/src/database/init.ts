@@ -1,4 +1,5 @@
 import AccountModel from "../models/account.model";
+import LoanModel from "../models/loan.model";
 import PayeeModel from "../models/payee.model";
 import TokenModel from "../models/token.model";
 import TransactionModel from "../models/transaction.model";
@@ -13,6 +14,7 @@ const DbInitialize = async () => {
     AccountModel.sync({ alter: false });
     TransactionModel.sync({ alter: false });
     PayeeModel.sync({ alter: false });
+    LoanModel.sync({ alter: false });
   } catch (error) {
     console.log("Unable to connect our database", error);
   }

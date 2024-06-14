@@ -68,13 +68,18 @@ class AccountService {
   async topUpBalance(
     accountId: string,
     amount: number,
-    options: Partial<IFindAccountQuery>
+    options?: Partial<IFindAccountQuery>
   ) {
     const filter = { where: { id: accountId }, ...options };
     const update = {
       balance: sequelize.literal(`balance+${amount}`),
     };
     return await this.accountDataSource.updateOne(filter, update as any);
+  }
+
+  async getAccounts(): Promise<IAccount[]>{
+    const query = {where:{},raw:true}
+    return this.accountDataSource.fetchAll(query)
   }
 }
 

@@ -13,6 +13,7 @@ import PayeeService from "../services/payee.service";
 import PaymentService from "../services/payment.services";
 import TransactionService from "../services/transaction.service";
 import Utility from "../utils/index.utils";
+import Permissions from "../permission";
 
 @autoInjectable()
 class TransactionController {
@@ -411,14 +412,55 @@ class TransactionController {
     }
   }
 
-  async getUserTransaction(req:Request,res:Response){
+  async getUserTransaction(req: Request, res: Response) {
     try {
-      const params = {...req.params}
-      let transaction = await this.transactionService.getTransactionByField({id:Utility.escapeHtml(params.id)})
-      if(!transaction){
-        return Utility.handleError(res,"Transaction does not exist",ResponseCode.NOT_FOUND)
+      const params = { ...req.params };
+      let transaction = await this.transactionService.getTransactionByField({
+        id: Utility.escapeHtml(params.id),
+      });
+      if (!transaction) {
+        return Utility.handleError(
+          res,
+          "Transaction does not exist",
+          ResponseCode.NOT_FOUND
+        );
       }
-      return Utility.handleSuccess(res,"Transaction fetched successfully",{transaction},ResponseCode.SUCCESS)
+      return Utility.handleSuccess(
+        res,
+        "Transaction fetched successfully",
+        { transaction },
+        ResponseCode.SUCCESS
+      );
+    } catch (error) {
+      return Utility.handleError(
+        res,
+        (error as TypeError).message,
+        ResponseCode.SERVER_ERROR
+      );
+    }
+  }
+
+  async getAllUserTransactionsAdmin(req: Request, res: Response) {
+    try {
+      const admin = { ...req.body.user };
+      const permission = Permissions.can(admin.role).readAny("transactions");
+      if (!permission) {
+        return Utility.handleError(
+          res,
+          "Invalid Permission",
+          ResponseCode.NOT_FOUND
+        );
+      }
+      let filter = {} as ITransaction;
+      let transactions = await this.transactionService.getTransactionsByField({
+        ...filter,
+      });
+      return Utility.handleSuccess(
+        res,
+        "Transaction fetched successfully",
+        { transactions },
+        ResponseCode.SUCCESS
+      );
     } catch (error) {
       return Utility.handleError(
         res,
