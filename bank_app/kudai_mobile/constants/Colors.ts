@@ -1,19 +1,19 @@
-const tintColorLight = '#2f95dc';
-const tintColorDark = '#fff';
+const PRIMARY = "#443333";
+const SECONDARY = "#EEA849";
+const CONTRAST = "green";
+const INACTIVE_CONTRAST = "green";
+const ERROR = "#FF5B14";
+const SUCCESS = "#3BEF1E";
+const OVERLAY = "rgba(45, 35, 35, 0.5)";
 
-export default {
-  light: {
-    text: '#000',
-    background: '#fff',
-    tint: tintColorLight,
-    tabIconDefault: '#ccc',
-    tabIconSelected: tintColorLight,
-  },
-  dark: {
-    text: '#fff',
-    background: '#000',
-    tint: tintColorDark,
-    tabIconDefault: '#ccc',
-    tabIconSelected: tintColorDark,
-  },
+const colors = {
+  PRIMARY,
+  SECONDARY,
+  CONTRAST,
+  INACTIVE_CONTRAST,
+  ERROR,
+  SUCCESS,
+  OVERLAY,
 };
+
+export default colors;
