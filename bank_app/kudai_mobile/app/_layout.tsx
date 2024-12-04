@@ -7,6 +7,7 @@ import { useEffect } from 'react';
 import 'react-native-reanimated';
 
 import { Text, useColorScheme } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -57,12 +58,12 @@ function RootLayoutNav() {
   const colorScheme = useColorScheme();
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      {/* <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
-      </Stack> */}
-      <Text>Hello world</Text>
-    </ThemeProvider>
+    <>
+      <StatusBar style='auto' />
+      <Stack>
+        <Stack.Screen name='(tabs)' options={{headerShown:false}} />
+        {/* <Stack.Screen name='index' options={{headerShown:false}} /> */}
+      </Stack>
+    </>
   );
 }
