@@ -15,6 +15,7 @@ import cookieParser from "cookie-parser";
 import { connectDB } from "./db/connect.js";
 import userRouter from "./routes/user.router.js";
 import User from "./model/user.model.js";
+import jobRouter from "./routes/job.router.js";
 
 const config = {
   authRequired: false,
@@ -42,6 +43,7 @@ app.use(auth(config));
 
 // routesFiles.forEach((file))
 app.use("/api/user",userRouter)
+app.use("/api/jobs", jobRouter)
 
 // function to check if user exists in the db
 const enusureUserInDB = asyncHandler(async (user) => {
