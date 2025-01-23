@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 // import fs from "fs";
+import asyncHandler from "express-async-handler";
 
 dotenv.config();
 
@@ -13,6 +14,8 @@ import { auth } from "express-openid-connect";
 import cookieParser from "cookie-parser";
 import { connectDB } from "./db/connect.js";
 import userRouter from "./routes/user.router.js";
+import User from "./model/user.model.js";
+import jobRouter from "./routes/job.router.js";
 
 const config = {
   authRequired: false,
@@ -40,6 +43,45 @@ app.use(auth(config));
 
 // routesFiles.forEach((file))
 app.use("/api/user",userRouter)
+app.use("/api/jobs", jobRouter)
+
+// function to check if user exists in the db
+const enusureUserInDB = asyncHandler(async (user) => {
+  try {
+    const existingUser = await User.findOne({ auth0Id: user.sub });
+
+    if (!existingUser) {
+      // create a new user document
+      const newUser = new User({
+        auth0Id: user.sub,
+        email: user.email,
+        name: user.name,
+        role: "jobseeker",
+        profilePicture: user.picture,
+      });
+
+      await newUser.save();
+
+      console.log("User added to db", user);
+    } else {
+      console.log("User already exists in db", existingUser);
+    }
+  } catch (error) {
+    console.log("Error checking or adding user to db", error.message);
+  }
+});
+
+app.get("/", async (req, res) => {
+  if (req.oidc.isAuthenticated()) {
+    // check if Auth0 user exists in the db
+    await enusureUserInDB(req.oidc.user);
+
+    // redirect to the frontend
+    return res.redirect(process.env.CLIENT_URL);
+  } else {
+    return res.send("Logged out");
+  }
+});
 
 const server = async () => {
   try {

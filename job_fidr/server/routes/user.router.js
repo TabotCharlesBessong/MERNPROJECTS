@@ -1,4 +1,5 @@
 import express from "express";
+import { getUserProfile } from "../controllers/user.controller.js";
 
 const userRouter = express.Router();
 
@@ -15,5 +16,7 @@ userRouter.get("/check-auth",(req,res) => {
     })
   }
 })
+
+userRouter.get("/:id",getUserProfile)
 
 export default userRouter
