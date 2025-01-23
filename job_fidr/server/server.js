@@ -1,21 +1,16 @@
 import express from "express";
+import { auth } from "express-openid-connect";
 import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
 import cors from "cors";
-// import fs from "fs";
+import {connectDB} from "./db/connect.js";
 import asyncHandler from "express-async-handler";
-
+import fs from "fs";
+import User from "./model/user.model.js";
+import { log } from "console";
 dotenv.config();
 
 const app = express();
-
-const port = process.env.PORT || 5000;
-
-import { auth } from "express-openid-connect";
-import cookieParser from "cookie-parser";
-import { connectDB } from "./db/connect.js";
-import userRouter from "./routes/user.router.js";
-import User from "./model/user.model.js";
-import jobRouter from "./routes/job.router.js";
 
 const config = {
   authRequired: false,
@@ -24,26 +19,38 @@ const config = {
   baseURL: process.env.BASE_URL,
   clientID: process.env.CLIENT_ID,
   issuerBaseURL: process.env.ISSUER_BASE_URL,
+  routes: {
+    postLogoutRedirect: process.env.CLIENT_URL,
+    callback: "/callback",
+    logout: "/logout",
+    login: "/login",
+  },
+
+  session: {
+    absoluteDuration: 30 * 24 * 60 * 60 * 1000, // 30 days
+    cookie: {
+      domain: "jobfindr-q1cl.onrender.com",
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "None",
+    },
+  },
 };
 
 app.use(
   cors({
-    credentials: true,
     origin: process.env.CLIENT_URL,
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    exposedHeaders: ["set-cookie"],
   })
 );
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.use(auth(config));
-
-// routes
-// const routesFiles = fs.readlinkSync("./routes")
-
-// routesFiles.forEach((file))
-app.use("/api/user",userRouter)
-app.use("/api/jobs", jobRouter)
 
 // function to check if user exists in the db
 const enusureUserInDB = asyncHandler(async (user) => {
@@ -83,16 +90,31 @@ app.get("/", async (req, res) => {
   }
 });
 
+// routes
+const routeFiles = fs.readdirSync("./routes");
+
+routeFiles.forEach((file) => {
+  // import dynamic routes
+  import(`./routes/${file}`)
+    .then((route) => {
+      app.use("/api/v1/", route.default);
+    })
+    .catch((error) => {
+      console.log("Error importing route", error);
+    });
+});
+
 const server = async () => {
   try {
-    await connectDB()
-    app.listen(port, () => {
-      console.log(`Server running on port ${port}`);
+    await connectDB();
+
+    app.listen(process.env.PORT, () => {
+      console.log(`Server is running on port ${process.env.PORT}`);
     });
   } catch (error) {
-    console.error(error);
+    console.log("Server error", error.message);
     process.exit(1);
   }
-}
+};
 
 server();
