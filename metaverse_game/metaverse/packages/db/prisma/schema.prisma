@@ -1,0 +1,82 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  username String   @unique
+  password String
+  avatarId String?  @db.ObjectId // Reference to Avatar
+  role     Role
+  spaces   String[] @db.ObjectId // List of Space IDs
+}
+
+model Space {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  width     Int
+  height    Int
+  thumbnail String?
+  creatorId String   @db.ObjectId // Reference to User ID
+  elements  String[] @db.ObjectId // List of spaceElements IDs
+}
+
+model spaceElements {
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  elementId String @db.ObjectId // Reference to Element ID
+  spaceId   String @db.ObjectId // Reference to Space ID
+  x         Int
+  y         Int
+}
+
+model Element {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  width       Int
+  height      Int
+  static      Boolean
+  imageUrl    String
+  spaces      String[] @db.ObjectId // List of spaceElements IDs
+  mapElements String[] @db.ObjectId // List of MapElements IDs
+}
+
+model Map {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  width      Int
+  height     Int
+  name       String
+  thumbnail  String
+  mapElements String[] @db.ObjectId // List of MapElements IDs
+}
+
+model MapElements {
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  mapId     String  @db.ObjectId // Reference to Map ID
+  elementId String  @db.ObjectId // Reference to Element ID
+  x         Int?
+  y         Int?
+}
+
+model Avatar {
+  id       String  @id @default(auto()) @map("_id") @db.ObjectId
+  imageUrl String?
+  name     String?
+  users    String[] @db.ObjectId // List of User IDs
+}
+
+enum Role {
+  Admin
+  User
+}
+
+
