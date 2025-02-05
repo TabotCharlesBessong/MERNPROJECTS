@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "types": ["jest"],
+    "module": "CommonJS",
+    "target": "ES6",
+    "strict": true,
+    "noImplicitAny": false,
+    "esModuleInterop": true
+  }
+}
