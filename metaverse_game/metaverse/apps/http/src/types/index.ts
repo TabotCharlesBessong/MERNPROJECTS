@@ -1,10 +1,11 @@
 import z from "zod";
 
 export const SignupSchema = z.object({
-  username: z.string(),
-  password: z.string(),
+  username: z.string().min(3, "Username must be at least 3 characters").trim(),
+  password: z.string().min(6, "Password must be at least 6 characters").trim(),
   type: z.enum(["user", "admin"]),
 });
+
 
 export const SigninSchema = z.object({
   username: z.string(),
