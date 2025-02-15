@@ -5,6 +5,7 @@ import { compare, hash } from '../scrypt';
 import { JWT_PASSWORD } from '../config';
 import jwt from "jsonwebtoken";
 import { userRouter } from './user';
+import { spaceRouter } from './space';
 
 export const router = Router()
 
@@ -83,3 +84,4 @@ router.post("/signin", async (req, res) => {
 });
 
 router.use("/user", userRouter);
+router.use("/space", spaceRouter);
