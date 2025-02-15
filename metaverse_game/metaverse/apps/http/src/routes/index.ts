@@ -4,6 +4,7 @@ import { SigninSchema, SignupSchema } from "../types";
 import { compare, hash } from '../scrypt';
 import { JWT_PASSWORD } from '../config';
 import jwt from "jsonwebtoken";
+import { userRouter } from './user';
 
 export const router = Router()
 
@@ -80,3 +81,5 @@ router.post("/signin", async (req, res) => {
     res.status(400).json({ message: "Internal server error" });
   }
 });
+
+router.use("/user", userRouter);
