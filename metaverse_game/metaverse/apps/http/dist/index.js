@@ -9,7 +9,8 @@ const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const port = process.env.PORT || 5000;
-app.use("/api/v1", routes_1.router);
+app.use(express_1.default.json());
+app.use("/api", routes_1.router);
 app.listen(port, () => {
     console.log(`The server is listening on ${port}...`);
 });

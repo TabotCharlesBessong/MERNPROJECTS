@@ -6,8 +6,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateMapSchema = exports.CreateAvatarSchema = exports.UpdateElementSchema = exports.CreateElementSchema = exports.AddElementSchema = exports.DeleteElementSchema = exports.CreateSpaceSchema = exports.UpdateMetadataSchema = exports.SigninSchema = exports.SignupSchema = void 0;
 const zod_1 = __importDefault(require("zod"));
 exports.SignupSchema = zod_1.default.object({
-    username: zod_1.default.string(),
-    password: zod_1.default.string(),
+    username: zod_1.default.string().min(3, "Username must be at least 3 characters").trim(),
+    password: zod_1.default.string().min(6, "Password must be at least 6 characters").trim(),
     type: zod_1.default.enum(["user", "admin"]),
 });
 exports.SigninSchema = zod_1.default.object({
