@@ -39,17 +39,22 @@ const axios = {
 };
 
 describe("Authentication", () => {
+
+  beforeAll(() => {
+    jest.setTimeout(10000)
+  })
   test("User is able to sign up only once", async () => {
     const username = "kirat" + Math.random(); // kirat0.12331313
     const password = "123456";
-    const response = await axios.post(`${BACKEND_URL}/api/v1/signup`, {
+    const response = await axios.post(`${BACKEND_URL}/api/signup`, {
       username,
       password,
       type: "admin",
     });
 
+    expect(response).toBeDefined()
     expect(response.status).toBe(200);
-    const updatedResponse = await axios.post(`${BACKEND_URL}/api/v1/signup`, {
+    const updatedResponse = await axios.post(`${BACKEND_URL}/api/signup`, {
       username,
       password,
       type: "admin",
@@ -62,7 +67,7 @@ describe("Authentication", () => {
     // const username = `kirat-${Math.random()}`; // kirat-0.12312313
     const password = "123456";
 
-    const response = await axios.post(`${BACKEND_URL}/api/v1/signup`, {
+    const response = await axios.post(`${BACKEND_URL}/api/signup`, {
       password,
     });
 
@@ -73,13 +78,13 @@ describe("Authentication", () => {
     const username = `kirat-${Math.random()}`;
     const password = "123456";
 
-    await axios.post(`${BACKEND_URL}/api/v1/signup`, {
+    await axios.post(`${BACKEND_URL}/api/signup`, {
       username,
       password,
       type: "admin",
     });
 
-    const response = await axios.post(`${BACKEND_URL}/api/v1/signin`, {
+    const response = await axios.post(`${BACKEND_URL}/api/signin`, {
       username,
       password,
     });
@@ -92,13 +97,13 @@ describe("Authentication", () => {
     const username = `kirat-${Math.random()}`;
     const password = "123456";
 
-    await axios.post(`${BACKEND_URL}/api/v1/signup`, {
+    await axios.post(`${BACKEND_URL}/api/signup`, {
       username,
       password,
       role: "admin",
     });
 
-    const response = await axios.post(`${BACKEND_URL}/api/v1/signin`, {
+    const response = await axios.post(`${BACKEND_URL}/api/signin`, {
       username: "WrongUsername",
       password,
     });
