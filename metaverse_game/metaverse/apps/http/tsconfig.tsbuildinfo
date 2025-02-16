@@ -1,1 +1,1 @@
-{"root":["./src/config.ts","./src/index.ts","./src/scrypt.ts","./src/routes/index.ts","./src/types/index.ts"],"version":"5.7.3"}
+{"root":["./src/config.ts","./src/index.ts","./src/scrypt.ts","./src/middleware/admin.ts","./src/middleware/user.ts","./src/routes/admin.ts","./src/routes/index.ts","./src/routes/space.ts","./src/routes/user.ts","./src/types/index.ts"],"version":"5.7.3"}
