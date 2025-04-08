@@ -1,26 +1,44 @@
 import express from "express";
-import { ApolloServer } from "apollo-server-express";
-import { connectDB } from "./config/db";
+import { ApolloServer, gql } from "apollo-server-express";
+import { connectDB, sequelize } from "./config/db";
 import { authenticate, AuthRequest } from "./middleware/auth";
+
 import { authTypeDefs } from "./schemas/auth";
+import { expenseTypeDefs } from "./schemas/expense";
+import { categoryTypeDefs } from "./schemas/category";
+
 import { authResolvers } from "./resolvers/auth";
-import { sequelize } from "./config/db";
+import { expenseResolvers } from "./resolvers/expense";
+import { categoryResolvers } from "./resolvers/category";
 
 const app = express();
 app.use(authenticate);
 
+// Merge typeDefs
+const typeDefs = [
+  gql`
+    type Query
+    type Mutation
+  `,
+  authTypeDefs,
+  expenseTypeDefs,
+  categoryTypeDefs,
+];
+
+// Merge resolvers
+const resolvers = [authResolvers, expenseResolvers, categoryResolvers];
+
 const server = new ApolloServer({
-  typeDefs: [authTypeDefs],
-  resolvers: [authResolvers],
+  typeDefs,
+  resolvers,
   context: ({ req }: { req: AuthRequest }) => ({
     userId: req.user?.id,
   }),
 });
 
-async function startServer() {
+async function start() {
   await connectDB();
-  await sequelize.sync(); // Use { force: true } only for resetting db
-
+  await sequelize.sync();
   await server.start();
   // @ts-ignore
   server.applyMiddleware({ app });
@@ -30,4 +48,4 @@ async function startServer() {
   );
 }
 
-startServer();
+start();
