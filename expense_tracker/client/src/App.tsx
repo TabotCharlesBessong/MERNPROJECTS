@@ -1,12 +1,22 @@
-import './App.css'
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Register from "./pages/Register";
+import Login from "./pages/Login";
+import ProtectedRoute from "./components/ProtectedRoute";
+import Dashboard from "./pages/Dashboard";
 
-function App() {
-
+export default function App() {
   return (
-    <>
-      <h1 className="text-3xl text-orange-700">Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat odit illum, maiores laborum quos consequuntur modi autem reprehenderit natus omnis quidem ex quisquam qui eos eius est quae in animi totam. Vero possimus ad praesentium esse quis necessitatibus reiciendis voluptates id. Vero quis quibusdam ut delectus officia voluptatem odit.</h1>
-    </>
-  )
-}
+    <Router>
+      <Routes>
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
 
-export default App
+        {/* Protected Routes */}
+        <Route element={<ProtectedRoute />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/" element={"Hello"} />
+        </Route>
+      </Routes>
+    </Router>
+  );
+}
