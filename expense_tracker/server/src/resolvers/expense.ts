@@ -1,6 +1,8 @@
 import { Expense } from "../models/Expense";
 import { Category } from "../models/Category";
 import * as yup from "yup";
+import { Op } from "sequelize";
+
 
 const expenseSchema = yup.object({
   title: yup.string().required(),
@@ -18,6 +20,29 @@ export const expenseResolvers = {
         where: { userId: context.userId },
         include: [Category],
         order: [["date", "DESC"]],
+      });
+    },
+    getExpenses: async (_: any, { filter }: any, context: any) => {
+      const userId = context.userId;
+      if (!userId) throw new Error("Unauthorized");
+
+      const where: any = { userId };
+
+      if (filter?.category) {
+        where.category = filter.category;
+      }
+
+      if (filter?.date) {
+        const date = new Date(filter.date);
+        where.createdAt = {
+          [Op.gte]: startOfDay(date),
+          [Op.lte]: endOfDay(date),
+        };
+      }
+
+      return await Expense.findAll({
+        where,
+        order: [["createdAt", "DESC"]],
       });
     },
   },
