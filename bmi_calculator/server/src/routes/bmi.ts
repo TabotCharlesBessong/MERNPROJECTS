@@ -1,5 +1,4 @@
 import express from "express";
-import { requireAuth } from "../middleware/auth";
 import {
   calculateBMIController,
   getBMIHistoryController,
@@ -7,7 +6,7 @@ import {
 
 const router = express.Router();
 
-router.post("/calculate", requireAuth, calculateBMIController);
-router.get("/history", requireAuth, getBMIHistoryController);
+router.post("/calculate", calculateBMIController);
+router.get("/history", getBMIHistoryController);
 
 export default router;
